@@ -1,0 +1,520 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html manifest="mobile/OfflineApp.manifest">
+<head>
+    <title>HACalc</title>
+    <!--[if IE]><script>document.write('<base href="' + location.protocol + '//' + location.host + location.pathname.replace(/\/[^\/]*$/, '/mobile/') + '"/>')</script><![endif]-->
+    <base href="mobile/">
+    <script id="DC_baseScript">if(navigator.userAgent.indexOf('AppleWebKit/') == -1) document.write('<base href="' + location.protocol + '//' + location.host + location.pathname.replace(/\/[^\/]*$/, '/mobile/') + '"/>')</script>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, maximum-scale=1, minimum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="YES">
+    <link rel="apple-touch-icon" href="Images/WebClipIcon.png">
+    <link rel="stylesheet" href="main.css">
+    <script type="text/javascript" src="Parts/parts.js" charset="utf-8"></script>
+    <script type="text/javascript" src="main.js" charset="utf-8"></script>
+</head>
+<body onload="load();">
+    <div id="content">
+        <div id="columnLayout">
+            <div id="div"><div id="AttackerColumn">
+                    <div id="textAttackerRace"></div>
+                    <select id="popupAttackerRace" apple-style-relative="height: 20px;" name="popupAttackerRace" onchange="PopupAttackerRaceUpdate(event)">
+                        <option id="option1" value="0">Council</option>
+                        <option value="1" id="option">Dark Elves</option>
+                        <option id="option2" value="2">Dwarves</option>
+                        <option value="3" id="option3">Tribe</option>
+                        <option value="4" id="option4">Team Fortress</option>
+                    </select>
+                </div></div><div id="div1"><div id="DefenderColumn">
+                    <div id="textDefenderRace"></div>
+                    <select id="popupDefenderRace" apple-style-relative="height: 20px;" name="popupDefenderRace" onchange="PopupDefenderRaceUpdate(event)">
+                        <option id="option5" value="0">Council</option>
+                        <option id="option6" value="1">Dark Elves</option>
+                        <option id="option7" value="2">Dwarves</option>
+                        <option id="option8" value="3">Tribe</option>
+                        <option value="4" id="option9">Team Fortress</option>
+                    </select>
+                    <select id="popupTarget" apple-style-relative="height: 20px;" onchange="UpdateTarget1(event)">
+                    </select>
+                    <div id="checkboxHelm">
+                        <input type="checkbox" name="checkboxShield" id="checkboxinputHelm" value="true" onchange="UpdateTarget1(event)">
+                        <div id="checkboxdivHelm">Shining Helm</div>
+                    </div>
+                    <div id="checkboxShield">
+                        <input type="checkbox" name="checkboxShield" id="checkboxinputShield" value="true" onchange="UpdateTarget1(event)">
+                        <div id="checkboxdivShield">Dragon Scale</div>
+                    </div>
+                    <div id="checkboxManaVial">
+                        <input type="checkbox" name="Checkbox" id="checkboxinputItemManaVial" onchange="UpdateTarget1(event)">
+                        <div id="div18">Mana Vial</div>
+                    </div>
+                    <div id="checkboxBuffBubble">
+                        <input type="checkbox" name="Checkbox" id="checkboxinputBuffBubble" onchange="UpdateTarget1(event)">
+                        <div id="div21">Bubble</div>
+                    </div>
+                    <div id="checkboxBuffBrew">
+                        <input type="checkbox" name="Checkbox" id="checkboxinputBuffBrew" onchange="UpdateTarget1(event)">
+                        <div id="div26">Dwarven Brew</div>
+                    </div>
+                    <div id="columnLayout5">
+                        <div style="position: relative; display: table-cell; vertical-align: top; height: auto; width: 50%; " id="div16"><div id="column8">
+                                <div id="text4"></div>
+                            </div></div><div style="position: relative; display: table-cell; vertical-align: top; height: auto; width: 50%; " id="div17"><div id="column9">
+                                <input id="textFieldInitialMaxHP" type="text" name="" value="" onchange="SetMaxHP(event)">
+                            </div></div></div>
+                    <div id="columnLayout6">
+                        <div style="position: relative; display: table-cell; vertical-align: top; height: auto; width: 50%; " id="div19"><div id="column10">
+                                <div id="text5"></div>
+                            </div></div><div style="position: relative; display: table-cell; vertical-align: top; height: auto; width: 50%; " id="div20"><div id="column11">
+                                <input id="textFieldInitialCurrentHP" type="text" name="" value="" onchange="SetCurrentHP(event)">
+                            </div></div></div>
+                </div></div></div>
+        <div id="AP1">
+            <div id="text15"></div>
+            <select id="popupAttack1" apple-style-relative="height: 20px;" onchange="AP1UpdateAll(event)">
+            </select>
+            <div id="columnLayout1">
+                <div id="div3"><div id="column">
+                        <div id="checkboxRunemetal1">
+                            <input type="checkbox" name="CheckboxRunemetal1" id="checkboxinputRunemetal1" value="TRUE" onchange="AP1UpdateAll(event)">
+                            <div id="checkboxdivSword">Runemetal / Ammo</div>
+                        </div>
+                        <div id="checkboxAttackTile1">
+                            <input type="checkbox" name="CheckboxAttackTile" id="checkboxinputAttackTile1" onchange="AP1UpdateAll(event)">
+                            <div id="divAttackTile">Attack Tile</div>
+                        </div>
+                        <div id="checkboxItemScroll1">
+                            <input type="checkbox" name="CheckboxScroll" id="checkboxinputItemScroll1" onchange="AP1UpdateAll(event)">
+                            <div id="divScroll1">Scroll</div>
+                        </div>
+                        <div id="checkboxItemMeat1">
+                            <input type="checkbox" name="Checkbox" id="checkboxinputItemMeat1" onchange="AP1UpdateAll(event)">
+                            <div id="div2">Meat</div>
+                        </div>
+                        <div id="checkboxBuffBloodLust1">
+                            <input type="checkbox" name="CheckboxBloodLust" id="checkboxinputBuffBloodLust1" onchange="AP1UpdateAll(event)">
+                            <div id="div7">Blood Lust</div>
+                        </div>
+                        <div id="text"></div>
+                        <select id="popupBuffPaladinDmg1" apple-style-relative="height: 20px;" onchange="AP1UpdateAll(event)">
+                            <option selected="selected" id="option10">0</option>
+                            <option id="option11">1</option>
+                            <option id="option12">2</option>
+                            <option id="option13">3</option>
+                        </select>
+                    </div></div><div id="div4"><div id="column1">
+                        <div id="checkboxDebuffAnnhilator">
+                            <input type="checkbox" name="Checkbox" id="checkboxinputDebuffAnnhilator1" onchange="AP1UpdateAll(event)">
+                            <div id="div12">Annhilator Debuff</div>
+                        </div>
+                        <div id="checkboxResistTile1">
+                            <input type="checkbox" name="CheckboxResistTile1" id="checkboxinputResistTile1" onchange="AP1UpdateAll(event)">
+                            <div id="div9">Resist Tile</div>
+                        </div>
+                        <div id="checkboxDebuffPriestess1">
+                            <input type="checkbox" name="Checkbox" id="checkboxinputDebuffPriestess1" onchange="AP1UpdateAll(event)">
+                            <div id="div5">Priestess Debuff</div>
+                        </div>
+                        <div id="checkboxDebuffJarate">
+                            <input type="checkbox" name="Checkbox" id="checkboxinputDebuffJarate1" onchange="AP1UpdateAll(event)">
+                            <div id="div13">Jarate Debuff</div>
+                        </div>
+                        <div id="text1"></div>
+                        <select id="popupBuffPaladinRes1" apple-style-relative="height: 20px;" onchange="AP1UpdateAll(event)">
+                            <option selected="selected" id="option14">0</option>
+                            <option id="option15">1</option>
+                            <option id="option16">2</option>
+                            <option id="option17">3</option>
+                        </select>
+                    </div></div></div>
+            <div id="box1">
+                <div id="columnLayout2">
+                    <div id="div6"><div id="column2">
+                            <div id="columnLayout3">
+                                <div id="div10"><div id="column4">
+                                        <div id="text2"></div>
+                                    </div></div><div id="div11"><div id="column5">
+                                        <div id="textAttackValue1"></div>
+                                    </div></div></div>
+                            <div id="columnLayout7">
+                                <div id="div22"><div id="column12">
+                                        <div id="text6"></div>
+                                    </div></div><div id="div23"><div id="column13">
+                                        <div id="textDamageValue1"></div>
+                                    </div></div></div>
+                        </div></div><div id="div8"><div id="column3">
+                            <div id="columnLayout4">
+                                <div id="div14"><div id="column6">
+                                        <div id="text3"></div>
+                                    </div></div><div id="div15"><div id="column7">
+                                        <div id="textResistValue1"></div>
+                                    </div></div></div>
+                            <div id="columnLayout8">
+                                <div id="div24"><div id="column14">
+                                        <div id="text7"></div>
+                                    </div></div><div id="div25"><div id="column15">
+                                        <div id="textHPValue1"></div>
+                                    </div></div></div>
+                        </div></div></div>
+            </div>
+        </div>
+        <div id="AP2">
+            <div id="text14"></div>
+            <select id="popupAttack2" apple-style-relative="height: 20px;" onchange="AP2UpdateAll(event)">
+            </select>
+            <div id="columnLayout9">
+                <div id="div27"><div id="column16">
+                        <div id="checkboxRunemetal2">
+                            <input type="checkbox" name="CheckboxRunemetal1" id="checkboxinputRunemetal2" value="TRUE" onchange="AP2UpdateAll(event)">
+                            <div id="checkboxdivSword1">Runemetal / Ammo</div>
+                        </div>
+                        <div id="checkboxAttackTile2">
+                            <input type="checkbox" name="CheckboxAttackTile" id="checkboxinputAttackTile2" onchange="AP2UpdateAll(event)">
+                            <div id="divAttackTile1">Attack Tile</div>
+                        </div>
+                        <div id="checkboxItemScroll2">
+                            <input type="checkbox" name="CheckboxScroll" id="checkboxinputItemScroll2" onchange="AP2UpdateAll(event)">
+                            <div id="divScroll2">Scroll</div>
+                        </div>
+                        <div id="checkboxItemMeat2">
+                            <input type="checkbox" name="Checkbox" id="checkboxinputItemMeat2" onchange="AP2UpdateAll(event)">
+                            <div id="div28">Meat</div>
+                        </div>
+                        <div id="checkboxBuffBloodLust2">
+                            <input type="checkbox" name="CheckboxBloodLust" id="checkboxinputBuffBloodLust2" onchange="AP2UpdateAll(event)">
+                            <div id="div29">Blood Lust</div>
+                        </div>
+                        <div id="text8"></div>
+                        <select id="popupBuffPaladinDmg2" apple-style-relative="height: 20px;" onchange="AP2UpdateAll(event)">
+                            <option selected="selected" id="option18">0</option>
+                            <option id="option19">1</option>
+                            <option id="option20">2</option>
+                            <option id="option21">3</option>
+                        </select>
+                    </div></div><div id="div30"><div id="column17">
+                        <div id="checkboxDebuffAnnhilator1">
+                            <input type="checkbox" name="Checkbox" id="checkboxinputDebuffAnnhilator2" onchange="AP2UpdateAll(event)">
+                            <div id="div31">Annhilator Debuff</div>
+                        </div>
+                        <div id="checkboxResistTile2">
+                            <input type="checkbox" name="CheckboxResistTile1" id="checkboxinputResistTile2" onchange="AP2UpdateAll(event)">
+                            <div id="div32">Resist Tile</div>
+                        </div>
+                        <div id="checkboxDebuffPriestess2">
+                            <input type="checkbox" name="Checkbox" id="checkboxinputDebuffPriestess2" onchange="AP2UpdateAll(event)">
+                            <div id="div33">Priestess Debuff</div>
+                        </div>
+                        <div id="checkboxDebuffJarate1">
+                            <input type="checkbox" name="Checkbox" id="checkboxinputDebuffJarate2" onchange="AP2UpdateAll(event)">
+                            <div id="div34">Jarate Debuff</div>
+                        </div>
+                        <div id="text9"></div>
+                        <select id="popupBuffPaladinRes2" apple-style-relative="height: 20px;" onchange="AP2UpdateAll(event)">
+                            <option selected="selected" id="option22">0</option>
+                            <option id="option23">1</option>
+                            <option id="option24">2</option>
+                            <option id="option25">3</option>
+                        </select>
+                    </div></div></div>
+            <div id="box3">
+                <div id="columnLayout10">
+                    <div id="div35"><div id="column18">
+                            <div id="columnLayout11">
+                                <div id="div36"><div id="column19">
+                                        <div id="text10"></div>
+                                    </div></div><div id="div37"><div id="column20">
+                                        <div id="textAttackValue2"></div>
+                                    </div></div></div>
+                            <div id="columnLayout12">
+                                <div id="div38"><div id="column21">
+                                        <div id="text11"></div>
+                                    </div></div><div id="div39"><div id="column22">
+                                        <div id="textDamageValue2"></div>
+                                    </div></div></div>
+                        </div></div><div id="div40"><div id="column23">
+                            <div id="columnLayout13">
+                                <div id="div41"><div id="column24">
+                                        <div id="text12"></div>
+                                    </div></div><div id="div42"><div id="column25">
+                                        <div id="textResistValue2"></div>
+                                    </div></div></div>
+                            <div id="columnLayout14">
+                                <div id="div43"><div id="column26">
+                                        <div id="text13"></div>
+                                    </div></div><div id="div44"><div id="column27">
+                                        <div id="textHPValue2"></div>
+                                    </div></div></div>
+                        </div></div></div>
+            </div>
+        </div>
+        <div id="AP3">
+            <div id="text16"></div>
+            <select id="popupAttack3" apple-style-relative="height: 20px;" onchange="AP3UpdateAll(event)">
+            </select>
+            <div id="columnLayout15">
+                <div id="div45"><div id="column28">
+                        <div id="checkboxRunemetal3">
+                            <input type="checkbox" name="CheckboxRunemetal1" id="checkboxinputRunemetal3" value="TRUE" onchange="AP3UpdateAll(event)">
+                            <div id="checkboxdivSword2">Runemetal / Ammo</div>
+                        </div>
+                        <div id="checkboxAttackTile3">
+                            <input type="checkbox" name="CheckboxAttackTile" id="checkboxinputAttackTile3" onchange="AP3UpdateAll(event)">
+                            <div id="divAttackTile2">Attack Tile</div>
+                        </div>
+                        <div id="checkboxItemScroll3">
+                            <input type="checkbox" name="CheckboxScroll" id="checkboxinputItemScroll3" onchange="AP3UpdateAll(event)">
+                            <div id="divScroll3">Scroll</div>
+                        </div>
+                        <div id="checkboxItemMeat3">
+                            <input type="checkbox" name="Checkbox" id="checkboxinputItemMeat3" onchange="AP3UpdateAll(event)">
+                            <div id="div46">Meat</div>
+                        </div>
+                        <div id="checkboxBuffBloodLust3">
+                            <input type="checkbox" name="CheckboxBloodLust" id="checkboxinputBuffBloodLust3" onchange="AP2UpdateAll(event)">
+                            <div id="div47">Blood Lust</div>
+                        </div>
+                        <div id="text17"></div>
+                        <select id="popupBuffPaladinDmg3" apple-style-relative="height: 20px;" onchange="AP3UpdateAll(event)">
+                            <option selected="selected" id="option26">0</option>
+                            <option id="option27">1</option>
+                            <option id="option28">2</option>
+                            <option id="option29">3</option>
+                        </select>
+                    </div></div><div id="div48"><div id="column29">
+                        <div id="checkboxDebuffAnnhilator2">
+                            <input type="checkbox" name="Checkbox" id="checkboxinputDebuffAnnhilator3" onchange="AP3UpdateAll(event)">
+                            <div id="div49">Annhilator Debuff</div>
+                        </div>
+                        <div id="checkboxResistTile3">
+                            <input type="checkbox" name="CheckboxResistTile1" id="checkboxinputResistTile3" onchange="AP3UpdateAll(event)">
+                            <div id="div50">Resist Tile</div>
+                        </div>
+                        <div id="checkboxDebuffPriestess3">
+                            <input type="checkbox" name="Checkbox" id="checkboxinputDebuffPriestess3" onchange="AP3UpdateAll(event)">
+                            <div id="div51">Priestess Debuff</div>
+                        </div>
+                        <div id="checkboxDebuffJarate2">
+                            <input type="checkbox" name="Checkbox" id="checkboxinputDebuffJarate3" onchange="AP3UpdateAll(event)">
+                            <div id="div52">Jarate Debuff</div>
+                        </div>
+                        <div id="text18"></div>
+                        <select id="popupBuffPaladinRes3" apple-style-relative="height: 20px;" onchange="AP3UpdateAll(event)">
+                            <option selected="selected" id="option30">0</option>
+                            <option id="option31">1</option>
+                            <option id="option32">2</option>
+                            <option id="option33">3</option>
+                        </select>
+                    </div></div></div>
+            <div id="box2">
+                <div id="columnLayout16">
+                    <div id="div53"><div id="column30">
+                            <div id="columnLayout17">
+                                <div id="div54"><div id="column31">
+                                        <div id="text19"></div>
+                                    </div></div><div id="div55"><div id="column32">
+                                        <div id="textAttackValue3"></div>
+                                    </div></div></div>
+                            <div id="columnLayout18">
+                                <div id="div56"><div id="column33">
+                                        <div id="text20"></div>
+                                    </div></div><div id="div57"><div id="column34">
+                                        <div id="textDamageValue3"></div>
+                                    </div></div></div>
+                        </div></div><div id="div58"><div id="column35">
+                            <div id="columnLayout19">
+                                <div id="div59"><div id="column36">
+                                        <div id="text21"></div>
+                                    </div></div><div id="div60"><div id="column37">
+                                        <div id="textResistValue3"></div>
+                                    </div></div></div>
+                            <div id="columnLayout20">
+                                <div id="div61"><div id="column38">
+                                        <div id="text22"></div>
+                                    </div></div><div id="div62"><div id="column39">
+                                        <div id="textHPValue3"></div>
+                                    </div></div></div>
+                        </div></div></div>
+            </div>
+        </div>
+        <div id="AP4">
+            <div id="text23"></div>
+            <select id="popupAttack4" apple-style-relative="height: 20px;" onchange="AP4UpdateAll(event)">
+            </select>
+            <div id="columnLayout21">
+                <div id="div63"><div id="column40">
+                        <div id="checkboxRunemetal4">
+                            <input type="checkbox" name="CheckboxRunemetal1" id="checkboxinputRunemetal4" value="TRUE" onchange="AP4UpdateAll(event)">
+                            <div id="checkboxdivSword3">Runemetal / Ammo</div>
+                        </div>
+                        <div id="checkboxAttackTile4">
+                            <input type="checkbox" name="CheckboxAttackTile" id="checkboxinputAttackTile4" onchange="AP4UpdateAll(event)">
+                            <div id="divAttackTile3">Attack Tile</div>
+                        </div>
+                        <div id="checkboxItemScroll4">
+                            <input type="checkbox" name="CheckboxScroll" id="checkboxinputItemScroll4" onchange="AP4UpdateAll(event)">
+                            <div id="divScroll4">Scroll</div>
+                        </div>
+                        <div id="checkboxItemMeat4">
+                            <input type="checkbox" name="Checkbox" id="checkboxinputItemMeat4" onchange="AP4UpdateAll(event)">
+                            <div id="div64">Meat</div>
+                        </div>
+                        <div id="checkboxBuffBloodLust4">
+                            <input type="checkbox" name="CheckboxBloodLust" id="checkboxinputBuffBloodLust4" onchange="AP4UpdateAll(event)">
+                            <div id="div65">Blood Lust</div>
+                        </div>
+                        <div id="text24"></div>
+                        <select id="popupBuffPaladinDmg4" apple-style-relative="height: 20px;" onchange="AP4UpdateAll(event)">
+                            <option selected="selected" id="option34">0</option>
+                            <option id="option35">1</option>
+                            <option id="option36">2</option>
+                            <option id="option37">3</option>
+                        </select>
+                    </div></div><div id="div66"><div id="column41">
+                        <div id="checkboxDebuffAnnhilator3">
+                            <input type="checkbox" name="Checkbox" id="checkboxinputDebuffAnnhilator4" onchange="AP4UpdateAll(event)">
+                            <div id="div67">Annhilator Debuff</div>
+                        </div>
+                        <div id="checkboxResistTile4">
+                            <input type="checkbox" name="CheckboxResistTile1" id="checkboxinputResistTile4" onchange="AP4UpdateAll(event)">
+                            <div id="div68">Resist Tile</div>
+                        </div>
+                        <div id="checkboxDebuffPriestess4">
+                            <input type="checkbox" name="Checkbox" id="checkboxinputDebuffPriestess4" onchange="AP4UpdateAll(event)">
+                            <div id="div69">Priestess Debuff</div>
+                        </div>
+                        <div id="checkboxDebuffJarate3">
+                            <input type="checkbox" name="Checkbox" id="checkboxinputDebuffJarate4" onchange="AP4UpdateAll(event)">
+                            <div id="div70">Jarate Debuff</div>
+                        </div>
+                        <div id="text25"></div>
+                        <select id="popupBuffPaladinRes4" apple-style-relative="height: 20px;" onchange="AP4UpdateAll(event)">
+                            <option selected="selected" id="option38">0</option>
+                            <option id="option39">1</option>
+                            <option id="option40">2</option>
+                            <option id="option41">3</option>
+                        </select>
+                    </div></div></div>
+            <div id="box4">
+                <div id="columnLayout22">
+                    <div id="div71"><div id="column42">
+                            <div id="columnLayout23">
+                                <div id="div72"><div id="column43">
+                                        <div id="text26"></div>
+                                    </div></div><div id="div73"><div id="column44">
+                                        <div id="textAttackValue4"></div>
+                                    </div></div></div>
+                            <div id="columnLayout24">
+                                <div id="div74"><div id="column45">
+                                        <div id="text27"></div>
+                                    </div></div><div id="div75"><div id="column46">
+                                        <div id="textDamageValue4"></div>
+                                    </div></div></div>
+                        </div></div><div id="div76"><div id="column47">
+                            <div id="columnLayout25">
+                                <div id="div77"><div id="column48">
+                                        <div id="text28"></div>
+                                    </div></div><div id="div78"><div id="column49">
+                                        <div id="textResistValue4"></div>
+                                    </div></div></div>
+                            <div id="columnLayout26">
+                                <div id="div79"><div id="column50">
+                                        <div id="text29"></div>
+                                    </div></div><div id="div80"><div id="column51">
+                                        <div id="textHPValue4"></div>
+                                    </div></div></div>
+                        </div></div></div>
+            </div>
+        </div>
+        <div id="AP5">
+            <div id="text30"></div>
+            <select id="popupAttack5" apple-style-relative="height: 20px;" onchange="AP5UpdateAll(event)">
+            </select>
+            <div id="columnLayout27">
+                <div id="div81"><div id="column52">
+                        <div id="checkboxRunemetal5">
+                            <input type="checkbox" name="CheckboxRunemetal1" id="checkboxinputRunemetal5" value="TRUE" onchange="AP5UpdateAll(event)">
+                            <div id="checkboxdivSword4">Runemetal / Ammo</div>
+                        </div>
+                        <div id="checkboxAttackTile5">
+                            <input type="checkbox" name="CheckboxAttackTile" id="checkboxinputAttackTile5" onchange="AP5UpdateAll(event)">
+                            <div id="divAttackTile4">Attack Tile</div>
+                        </div>
+                        <div id="checkboxItemScroll5">
+                            <input type="checkbox" name="CheckboxScroll" id="checkboxinputItemScroll5" onchange="AP5UpdateAll(event)">
+                            <div id="divScroll5">Scroll</div>
+                        </div>
+                        <div id="checkboxItemMeat5">
+                            <input type="checkbox" name="Checkbox" id="checkboxinputItemMeat5" onchange="AP5UpdateAll(event)">
+                            <div id="div82">Meat</div>
+                        </div>
+                        <div id="checkboxBuffBloodLust5">
+                            <input type="checkbox" name="CheckboxBloodLust" id="checkboxinputBuffBloodLust5" onchange="AP5UpdateAll(event)">
+                            <div id="div83">Blood Lust</div>
+                        </div>
+                        <div id="text31"></div>
+                        <select id="popupBuffPaladinDmg5" apple-style-relative="height: 20px;" onchange="AP5UpdateAll(event)">
+                            <option selected="selected" id="option42">0</option>
+                            <option id="option43">1</option>
+                            <option id="option44">2</option>
+                            <option id="option45">3</option>
+                        </select>
+                    </div></div><div id="div84"><div id="column53">
+                        <div id="checkboxDebuffAnnhilator4">
+                            <input type="checkbox" name="Checkbox" id="checkboxinputDebuffAnnhilator5" onchange="AP5UpdateAll(event)">
+                            <div id="div85">Annhilator Debuff</div>
+                        </div>
+                        <div id="checkboxResistTile5">
+                            <input type="checkbox" name="CheckboxResistTile1" id="checkboxinputResistTile5" onchange="AP5UpdateAll(event)">
+                            <div id="div86">Resist Tile</div>
+                        </div>
+                        <div id="checkboxDebuffPriestess5">
+                            <input type="checkbox" name="Checkbox" id="checkboxinputDebuffPriestess5" onchange="AP5UpdateAll(event)">
+                            <div id="div87">Priestess Debuff</div>
+                        </div>
+                        <div id="checkboxDebuffJarate4">
+                            <input type="checkbox" name="Checkbox" id="checkboxinputDebuffJarate5" onchange="AP5UpdateAll(event)">
+                            <div id="div88">Jarate Debuff</div>
+                        </div>
+                        <div id="text32"></div>
+                        <select id="popupBuffPaladinRes5" apple-style-relative="height: 20px;" onchange="AP5UpdateAll(event)">
+                            <option selected="selected" id="option46">0</option>
+                            <option id="option47">1</option>
+                            <option id="option48">2</option>
+                            <option id="option49">3</option>
+                        </select>
+                    </div></div></div>
+            <div id="box5">
+                <div id="columnLayout28">
+                    <div id="div89"><div id="column54">
+                            <div id="columnLayout29">
+                                <div id="div90"><div id="column55">
+                                        <div id="text33"></div>
+                                    </div></div><div id="div91"><div id="column56">
+                                        <div id="textAttackValue5"></div>
+                                    </div></div></div>
+                            <div id="columnLayout30">
+                                <div id="div92"><div id="column57">
+                                        <div id="text34"></div>
+                                    </div></div><div id="div93"><div id="column58">
+                                        <div id="textDamageValue5"></div>
+                                    </div></div></div>
+                        </div></div><div id="div94"><div id="column59">
+                            <div id="columnLayout31">
+                                <div id="div95"><div id="column60">
+                                        <div id="text35"></div>
+                                    </div></div><div id="div96"><div id="column61">
+                                        <div id="textResistValue5"></div>
+                                    </div></div></div>
+                            <div id="columnLayout32">
+                                <div id="div97"><div id="column62">
+                                        <div id="text36"></div>
+                                    </div></div><div id="div98"><div id="column63">
+                                        <div id="textHPValue5"></div>
+                                    </div></div></div>
+                        </div></div></div>
+            </div>
+        </div>
+    </div>
+    <div id="footer"></div>
+</body>
+</html>
