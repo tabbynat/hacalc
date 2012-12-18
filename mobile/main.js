@@ -896,11 +896,6 @@ function ResistUpdate(AP)
     var attack = AllRace_Attacks[popupAttackerRaceValue][popupAttackValue];
     APres[AP] = CalcResist(APTarget[AP], attack, checkboxinputResistTile.checked, popupBuffPaladinRes.value, checkboxinputDebuffAnnhilator.checked, checkboxinputDebuffJarate.checked);
     
-    if (APres[AP] > 1.00)
-    {
-        APres[AP] = 1.00;
-    }
-    
     var resisttext = Math.round(APres[AP] * 100);
     
     resisttext = resisttext + "%";
