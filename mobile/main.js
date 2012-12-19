@@ -300,9 +300,10 @@ var DE_P_VoidMonk    = new OCPuppet("DE",   "Void Monk", 0.20, 0.20,  800);
 var DE_P_Impaler     = new OCPuppet("DE",     "Impaler", 0.00, 0.00,  800);
 var DE_P_Necromancer = new OCPuppet("DE", "Necromancer", 0.00, 0.00,  800);
 var DE_P_Priestess   = new OCPuppet("DE",   "Priestess", 0.00, 0.00,  800);
-var DE_P_Wraith0     = new OCPuppet("DE",   "Wraith L0", 0.10, 0.00,  650); //wraith with 0, 1, and 2 eats.
+var DE_P_Wraith0     = new OCPuppet("DE",   "Wraith L0", 0.10, 0.00,  650); //wraith with 0, 1, 2 and 3 eats.
 var DE_P_Wraith1     = new OCPuppet("DE",   "Wraith L1", 0.10, 0.00,  800);
 var DE_P_Wraith2     = new OCPuppet("DE",   "Wraith L2", 0.10, 0.00,  950);
+var DE_P_Wraith3     = new OCPuppet("DE",   "Wraith L3", 0.10, 0.00, 1100);
 var DE_P_Phantom     = new OCPuppet("DE",     "Phantom", 0.00, 0.00,  100);
 
 var DE_Team = [
@@ -312,7 +313,8 @@ var DE_Team = [
 	DE_P_Priestess, 
 	DE_P_Wraith0, 
 	DE_P_Wraith1, 
-	DE_P_Wraith2, 
+	DE_P_Wraith2,
+    DE_P_Wraith3, 
 	DE_P_Phantom];
 
 //Dark Elves attacks setup
@@ -324,7 +326,8 @@ var DE_A_Necromancer = new OCAttack("DE",     "Necromancer Attack", 200, Cmag, 1
 var DE_A_Priestess   = new OCAttack("DE",       "Priestess Attack", 200, Cmag, 1.00);
 var DE_A_Wraith0     = new OCAttack("DE",       "Wraith L0 Attack", 250, Cmag, 1.00);
 var DE_A_Wraith1     = new OCAttack("DE",       "Wraith L1 Attack", 300, Cmag, 1.00);
-var DE_A_Wraith2     = new OCAttack("DE",       "Wraith L2 Attack", 450, Cmag, 1.00);
+var DE_A_Wraith2     = new OCAttack("DE",       "Wraith L2 Attack", 350, Cmag, 1.00);
+var DE_A_Wraith3     = new OCAttack("DE",       "Wraith L3 Attack", 400, Cmag, 1.00);
 var DE_A_Phantom     = new OCAttack("DE",         "Phantom Attack", 100, Cmag, 1.00);
 var DE_A_SoulHarvest = new OCAttack("DE",           "Soul Harvest", 100, Cmag, 1.00);
 
@@ -337,6 +340,7 @@ var DE_Attacks = [
 	DE_A_Wraith0,
 	DE_A_Wraith1,
 	DE_A_Wraith2,
+    DE_A_Wraith3,
 	DE_A_Phantom,
 	DE_A_SoulHarvest];
 
@@ -895,6 +899,11 @@ function ResistUpdate(AP)
     var popupAttackValue = popupAttack.value;    
     var attack = AllRace_Attacks[popupAttackerRaceValue][popupAttackValue];
     APres[AP] = CalcResist(APTarget[AP], attack, checkboxinputResistTile.checked, popupBuffPaladinRes.value, checkboxinputDebuffAnnhilator.checked, checkboxinputDebuffJarate.checked);
+    
+    if (APres[AP] > 1.00)
+    {
+        APres[AP] = 1.00;
+    }
     
     var resisttext = Math.round(APres[AP] * 100);
     
