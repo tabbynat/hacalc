@@ -48,7 +48,7 @@ function OCAttack(race, name, basedmg, dmgtype, percentage) //Object COnstructor
 	this.percentage = percentage; //float 0.50 is 50%. Multiply by the base damage to get the splash damage or bonus melee damage, as damage is rounded to the nearest 5 after all modifiers. 1.00 represents 100%, 0.50 represents 50% etc.
 }
 
-function OCTarget(puppet, lastdamage, maxhp, currenthp, itemhelm, itemshield, itemsoulstone, itemmanavial, buffbubble, debuffannhilator, buffbrew, itemspikearmor, debuffjarate) //constructs a target. The idea is that this target will be constructed at the setup phase and each attack will deal damage etc to the target.
+function OCTarget(puppet, lastdamage, maxhp, currenthp, itemhelm, itemshield, itemsoulstone, itemmanavial, buffbubble, debuffannihilator, buffbrew, itemspikearmor, debuffjarate) //constructs a target. The idea is that this target will be constructed at the setup phase and each attack will deal damage etc to the target.
 {
 	this.puppet           = puppet; //so that we have the base target stats.
 	this.lastdamage       = lastdamage; //this is mainly so that DamageTarget can return the damage that the target has taken.
@@ -58,7 +58,7 @@ function OCTarget(puppet, lastdamage, maxhp, currenthp, itemhelm, itemshield, it
 	this.itemshield       = itemshield; //boolean
 	this.itemsoulstone    = itemsoulstone; //boolean
 	this.itemmanavial      = itemmanavial; //boolean
-	this.debuffannhilator = debuffannhilator; //boolean
+	this.debuffannihilator = debuffannihilator; //boolean
     this.buffbubble       = buffbubble; //boolean
 	this.buffbrew         = buffbrew; //boolean
 	this.itemspikearmor   = itemspikearmor; //boolean
@@ -95,7 +95,7 @@ function UpdateTargetmaxhp(target)
 }
 
 
-function CalcAttack(attack, attacktile, itemrunemetal, itemscroll, itemmeat, debuffpriestess, buffbloodlust, buffpaladindmg) //to calculate raw damage before resists and crystal drill damage.
+function CalcAttack(attack, attacktile, mediclink, itemrunemetal, itemscroll, itemmeat, debuffpriestess, buffbloodlust, buffpaladindmg) //to calculate raw damage before resists and crystal drill damage.
 
 {
 	var attackpower = attack.basedmg;
@@ -136,7 +136,12 @@ function CalcAttack(attack, attacktile, itemrunemetal, itemscroll, itemmeat, deb
         }
 	}
 	
-	if (itemscroll)
+	if (mediclink)
+    {
+        attackpower = attackpower * 1.5;
+    }
+    
+    if (itemscroll)
 	{
 		attackpower = attackpower * 3;
 	}
@@ -176,7 +181,7 @@ function CalcAttack(attack, attacktile, itemrunemetal, itemscroll, itemmeat, deb
 
 }
 
-function CalcResist(target, attack, resisttile, buffpaladinres, debuffannhilator, debuffjarate)
+function CalcResist(target, attack, resisttile, buffpaladinres, debuffAnnihilator, debuffjarate)
 {
     var resist = 0;
     
@@ -231,7 +236,7 @@ function CalcResist(target, attack, resisttile, buffpaladinres, debuffannhilator
             resist = resist + 0.20;
         }
     }
-    if (debuffannhilator && (attack.dmgtype == Cphy))
+    if (debuffAnnihilator && (attack.dmgtype == Cphy))
     {
         resist = resist - 0.5;
     }
@@ -353,14 +358,14 @@ var DW_P_Paladin    = new OCPuppet("DW",   "Paladin", 0.10, 0.10, 1000);
 var DW_P_Grenadier  = new OCPuppet("DW", "Grenadier", 0.00, 0.00,  800);
 var DW_P_Gunner     = new OCPuppet("DW",    "Gunner", 0.00, 0.00,  800);
 var DW_P_Engineer   = new OCPuppet("DW",  "Engineer", 0.00, 0.00,  800);
-var DW_P_Annhilator = new OCPuppet("DW","Annhilator", 0.00, 0.00,  650);
+var DW_P_Annihilator = new OCPuppet("DW","Annihilator", 0.00, 0.00,  650);
 
 var DW_Team = [
 	DW_P_Paladin, 
 	DW_P_Grenadier, 
 	DW_P_Gunner, 
 	DW_P_Engineer, 
-	DW_P_Annhilator];
+	DW_P_Annihilator];
 
 var DW_A_Paladin     = new OCAttack("DW",           "Paladin Attack", 200, Cphy, 1.00);
 var DW_A_Grenadier1  = new OCAttack("DW",  "Grenadier Direct Attack", 200, Cmag, 1.00);
@@ -368,8 +373,8 @@ var DW_A_Grenadier2  = new OCAttack("DW",  "Grenadier Splash Attack", 200, Cmag,
 var DW_A_GunnerR     = new OCAttack("DW",      "Gunner Range Attack", 300, Cphy, 0.66);
 var DW_A_GunnerM     = new OCAttack("DW",      "Gunner Melee Attack", 300, Cphy, 1.00);
 var DW_A_Engineer    = new OCAttack("DW",          "Engineer Attack", 200, Cphy, 1.00);
-var DW_A_Annhilator1 = new OCAttack("DW", "Annhilator Direct Attack", 300, Cphy, 1.00);
-var DW_A_Annhilator2 = new OCAttack("DW", "Annhilator Splash Attack", 300, Cphy, 0.20);
+var DW_A_Annihilator1 = new OCAttack("DW", "Annihilator Direct Attack", 300, Cphy, 1.00);
+var DW_A_Annihilator2 = new OCAttack("DW", "Annihilator Splash Attack", 300, Cphy, 0.20);
 var DW_A_Drill1      = new OCAttack("DW",      "Drill Direct Attack", 600, Cphy, 1.00);
 var DW_A_Drill2      = new OCAttack("DW",      "Drill Splash Attack", 600, Cphy, 0.33); //untyped damage from gem tile to be added at damage calculation stage?
 
@@ -381,8 +386,8 @@ DW_A_Grenadier1,
 	DW_A_GunnerR,
 	DW_A_GunnerM,
 	DW_A_Engineer,
-	DW_A_Annhilator1,
-	DW_A_Annhilator2,
+	DW_A_Annihilator1,
+	DW_A_Annihilator2,
 	DW_A_Drill1,
 	DW_A_Drill2];
 
@@ -540,6 +545,13 @@ var checkboxinputAttackTileArray = Array("",
     "checkboxinputAttackTile4",
     "checkboxinputAttackTile5");
 
+var checkboxinputMedicLinkArray = Array("",
+    "checkboxinputMedicLink1",
+    "checkboxinputMedicLink2",
+    "checkboxinputMedicLink3",
+    "checkboxinputMedicLink4",
+    "checkboxinputMedicLink5");
+
 var checkboxinputItemScrollArray = Array("",
     "checkboxinputItemScroll1",
     "checkboxinputItemScroll2",
@@ -568,12 +580,12 @@ var popupBuffPaladinDmgArray = Array("",
     "popupBuffPaladinDmg4",
     "popupBuffPaladinDmg5");
 
-var checkboxinputDebuffAnnhilatorArray = Array("",
-    "checkboxinputDebuffAnnhilator1",
-    "checkboxinputDebuffAnnhilator2",
-    "checkboxinputDebuffAnnhilator3",
-    "checkboxinputDebuffAnnhilator4",
-    "checkboxinputDebuffAnnhilator5");
+var checkboxinputDebuffAnnihilatorArray = Array("",
+    "checkboxinputDebuffAnnihilator1",
+    "checkboxinputDebuffAnnihilator2",
+    "checkboxinputDebuffAnnihilator3",
+    "checkboxinputDebuffAnnihilator4",
+    "checkboxinputDebuffAnnihilator5");
 
 var checkboxinputResistTileArray = Array("",
     "checkboxinputResistTile1",
@@ -638,7 +650,7 @@ var checkboxinputItemMeat         = new Object();
 var checkboxinputBuffBloodLust    = new Object();
 var popupBuffPaladinDmg           = new Object();
 var checkboxinputResistTile       = new Object();
-var checkboxinputDebuffAnnhilator = new Object();
+var checkboxinputDebuffAnnihilator = new Object();
 var checkboxinputDebuffPriestess  = new Object();
 var checkboxinputDebuffJarate     = new Object();
 var popupBuffPaladinRes           = new Object();
@@ -796,10 +808,12 @@ function AttackUpdate(AP)
     popupAttack                   = document.getElementById(popupAttackArray[AP]);
     checkboxinputRunemetal        = document.getElementById(checkboxinputRunemetalArray[AP]);
     checkboxinputAttackTile       = document.getElementById(checkboxinputAttackTileArray[AP]);
+    checkboxinputMedicLink        = document.getElementById(checkboxinputMedicLinkArray[AP]);
     checkboxinputItemScroll       = document.getElementById(checkboxinputItemScrollArray[AP]);
     checkboxinputItemMeat         = document.getElementById(checkboxinputItemMeatArray[AP]);
     checkboxinputBuffBloodLust    = document.getElementById(checkboxinputBuffBloodLustArray[AP]);
     popupBuffPaladinDmg           = document.getElementById(popupBuffPaladinDmgArray[AP]);
+    checkboxinputDebuffAnnihilator = document.getElementById(checkboxinputDebuffAnnihilatorArray[AP]);
     checkboxinputDebuffPriestess  = document.getElementById(checkboxinputDebuffPriestessArray[AP]);
     textAttackValue               = document.getElementById(textAttackValueArray[AP]);
     textDamageValue               = document.getElementById(textDamageValueArray[AP]);
@@ -808,7 +822,7 @@ function AttackUpdate(AP)
     var popupAttackerRaceValue = popupAttackerRace.value;
     var popupAttackValue = popupAttack.value;
     
-    APdmg[AP] = CalcAttack(AllRace_Attacks[popupAttackerRaceValue][popupAttackValue], checkboxinputAttackTile.checked, checkboxinputRunemetal.checked, checkboxinputItemScroll.checked, checkboxinputItemMeat.checked, checkboxinputDebuffPriestess.checked, checkboxinputBuffBloodLust.checked, popupBuffPaladinDmg.value);
+    APdmg[AP] = CalcAttack(AllRace_Attacks[popupAttackerRaceValue][popupAttackValue], checkboxinputAttackTile.checked, checkboxinputMedicLink.checked, checkboxinputRunemetal.checked, checkboxinputItemScroll.checked, checkboxinputItemMeat.checked, checkboxinputDebuffPriestess.checked, checkboxinputBuffBloodLust.checked, popupBuffPaladinDmg.value);
     
     if ((AllRace_Attacks[popupAttackerRaceValue][popupAttackValue].name == "Axe Thrower Attack") && ((APTarget[AP-1].currenthp / APTarget[AP-1].maxhp) > 0.5)) // deal with axe thrower, here due to HP condition
     {
@@ -869,9 +883,14 @@ function AttackUpdate(AP)
             APTarget[AP+1].buffbubble = false;
         }
         
-        if ((APTarget[AP].debuffannhilator) && (AllRace_Attacks[popupAttackerRaceValue][popupAttackValue].dmgtype = Cphy) && (APdmg[AP] > 0)) // remove annhilator debuff
+        if ((checkboxinputDebuffAnnihilator.checked) && (AllRace_Attacks[popupAttackerRaceValue][popupAttackValue].dmgtype == Cphy) && (APdmg[AP] > 0)) // remove annihilator debuff
         {
-            APTarget[AP+1].debuffannhilator = false;
+            for (var x = AP+1; x < 6; x++)
+            {
+                checkboxinputDebuffAnnihilator = document.getElementById(checkboxinputDebuffAnnihilatorArray[x]);
+                checkboxinputDebuffAnnihilator.checked = false;
+            }
+            
         }
         
         if ((APdmg[AP] > 0) && (APTarget[AP].buffbrew)) // remove brew buff
@@ -892,13 +911,13 @@ function ResistUpdate(AP)
     checkboxinputResistTile       = document.getElementById(checkboxinputResistTileArray[AP]);
     checkboxinputDebuffJarate     = document.getElementById(checkboxinputDebuffJarateArray[AP]);
     popupBuffPaladinRes           = document.getElementById(popupBuffPaladinResArray[AP]);
-    checkboxinputDebuffAnnhilator = document.getElementById(checkboxinputDebuffAnnhilatorArray[AP]);
+    checkboxinputDebuffAnnihilator = document.getElementById(checkboxinputDebuffAnnihilatorArray[AP]);
     textResistValue               = document.getElementById(textResistValueArray[AP]);    
     
     var popupAttackerRaceValue = popupAttackerRace.value;
     var popupAttackValue = popupAttack.value;    
     var attack = AllRace_Attacks[popupAttackerRaceValue][popupAttackValue];
-    APres[AP] = CalcResist(APTarget[AP], attack, checkboxinputResistTile.checked, popupBuffPaladinRes.value, checkboxinputDebuffAnnhilator.checked, checkboxinputDebuffJarate.checked);
+    APres[AP] = CalcResist(APTarget[AP], attack, checkboxinputResistTile.checked, popupBuffPaladinRes.value, checkboxinputDebuffAnnihilator.checked, checkboxinputDebuffJarate.checked);
     
     if (APres[AP] > 1.00)
     {
@@ -1043,4 +1062,51 @@ function SetCurrentHP(event)
     APTarget[0].currenthp = textFieldInitialCurrentHP.value;
 
     AP1UpdateAll();
+}
+
+
+function CopyToAllAP(event)
+{
+    popupAttack                    = document.getElementById(popupAttackArray[1]);
+    checkboxinputRunemetal         = document.getElementById(checkboxinputRunemetalArray[1]);
+    checkboxinputAttackTile        = document.getElementById(checkboxinputAttackTileArray[1]);
+    checkboxinputMedicLink         = document.getElementById(checkboxinputMedicLinkArray[1]);
+    popupBuffPaladinDmg            = document.getElementById(popupBuffPaladinDmgArray[1]);
+    checkboxinputDebuffAnnihilator = document.getElementById(checkboxinputDebuffAnnihilatorArray[1]);
+    checkboxinputResistTile        = document.getElementById(checkboxinputResistTileArray[1]);
+    popupBuffPaladinRes            = document.getElementById(popupBuffPaladinResArray[1]);
+
+
+    var popupAttackValue                      = popupAttack.value;
+    var checkboxinputRunemetalChecked         = checkboxinputRunemetal.checked;
+    var checkboxinputAttackTileChecked        = checkboxinputAttackTile.checked;
+    var checkboxinputMedicLinkChecked         = checkboxinputMedicLink.checked;
+    var popupBuffPaladinDmgValue              = popupBuffPaladinDmg.value;
+    var checkboxinputDebuffAnnihilatorChecked = checkboxinputDebuffAnnihilator.checked;
+    var checkboxinputResistTileChecked        = checkboxinputResistTile.checked;
+    var popupBuffPaladinResValue              = popupBuffPaladinRes.value;
+
+    for (var x = 2; x < 6; x++)
+    {
+        popupAttack                    = document.getElementById(popupAttackArray[x]);
+        checkboxinputRunemetal         = document.getElementById(checkboxinputRunemetalArray[x]);
+        checkboxinputAttackTile        = document.getElementById(checkboxinputAttackTileArray[x]);
+        checkboxinputMedicLink         = document.getElementById(checkboxinputMedicLinkArray[x]);
+        popupBuffPaladinDmg            = document.getElementById(popupBuffPaladinDmgArray[x]);
+        checkboxinputDebuffAnnihilator = document.getElementById(checkboxinputDebuffAnnihilatorArray[x]);
+        checkboxinputResistTile        = document.getElementById(checkboxinputResistTileArray[x]);
+        popupBuffPaladinRes            = document.getElementById(popupBuffPaladinResArray[x]);
+        
+        popupAttack.value                      = popupAttackValue;
+        checkboxinputRunemetal.checked         = checkboxinputRunemetalChecked;
+        checkboxinputAttackTile.checked        = checkboxinputAttackTileChecked;
+        checkboxinputMedicLink.checked         = checkboxinputMedicLinkChecked;
+        popupBuffPaladinDmg.value              = popupBuffPaladinDmgValue;
+        checkboxinputDebuffAnnihilator.checked = checkboxinputDebuffAnnihilatorChecked;
+        checkboxinputResistTile.checked        = checkboxinputResistTileChecked;
+        popupBuffPaladinRes.value              = popupBuffPaladinResValue;
+    }
+    
+    AP1UpdateAll();
+
 }

@@ -7,6 +7,10 @@ Images/backgroundStripes.png
 Images/WebClipIcon.png
 main.css
 main.js
+Parts/Images/ButtonCopyToAllAP.png
+Parts/Images/ButtonCopyToAllAP__mid.png
+Parts/Images/ButtonCopyToAllAP_clicked.png
+Parts/Images/ButtonCopyToAllAP_clicked__mid.png
 Parts/parts.js
 ../Parts/core/external/sizzle_c.js
 ../Parts/license.txt
