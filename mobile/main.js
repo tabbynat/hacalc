@@ -172,7 +172,7 @@ function CalcAttack(attack, attacktile, mediclink, itemrunemetal, itemscroll, it
     
     if (attack.name == "Sniper Kneeling Attack")
     {
-        attackpower = attackpower + 400;
+        attackpower = attackpower + 300;
     }
     
 	attackpower = 5 * Math.round(attackpower/5) // Round to the nearest 5.
