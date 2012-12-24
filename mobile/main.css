@@ -4710,3 +4710,552 @@ body {
     margin-left: 160px;
     margin-bottom: 4px;
 }
+
+#checkboxDebuffPoisoner1 {
+    width: 80px;
+    font-family: HelveticaNeue;
+    font-size: 10pt;
+    position: relative;
+    -webkit-margin-top-collapse: separate;
+    -webkit-margin-bottom-collapse: separate;
+    margin-left: 18px;
+    margin-top: 4px;
+}
+
+#div99 {
+    position: absolute;
+    top: 2px;
+    left: 18px;
+    text-align: left;
+    vertical-align: middle;
+    right: -43px;
+    width: auto;
+    bottom: 1px;
+    height: auto;
+}
+
+#checkboxDebuffPoisoner2 {
+    width: 80px;
+    font-family: HelveticaNeue;
+    font-size: 10pt;
+    position: relative;
+    -webkit-margin-top-collapse: separate;
+    -webkit-margin-bottom-collapse: separate;
+    margin-left: 18px;
+    margin-top: 4px;
+}
+
+#div100 {
+    position: absolute;
+    top: 2px;
+    left: 18px;
+    text-align: left;
+    vertical-align: middle;
+    right: -43px;
+    width: auto;
+    bottom: 1px;
+    height: auto;
+}
+
+#checkboxDebuffPoisoner3 {
+    width: 80px;
+    font-family: HelveticaNeue;
+    font-size: 10pt;
+    position: relative;
+    -webkit-margin-top-collapse: separate;
+    -webkit-margin-bottom-collapse: separate;
+    margin-left: 18px;
+    margin-top: 4px;
+}
+
+#div101 {
+    position: absolute;
+    top: 2px;
+    left: 18px;
+    text-align: left;
+    vertical-align: middle;
+    right: -43px;
+    width: auto;
+    bottom: 1px;
+    height: auto;
+}
+
+#checkboxDebuffPoisoner4 {
+    width: 80px;
+    font-family: HelveticaNeue;
+    font-size: 10pt;
+    position: relative;
+    -webkit-margin-top-collapse: separate;
+    -webkit-margin-bottom-collapse: separate;
+    margin-left: 18px;
+    margin-top: 4px;
+}
+
+#div102 {
+    position: absolute;
+    top: 2px;
+    left: 18px;
+    text-align: left;
+    vertical-align: middle;
+    right: -43px;
+    width: auto;
+    bottom: 1px;
+    height: auto;
+}
+
+#checkboxDebuffPoisoner5 {
+    width: 80px;
+    font-family: HelveticaNeue;
+    font-size: 10pt;
+    position: relative;
+    -webkit-margin-top-collapse: separate;
+    -webkit-margin-bottom-collapse: separate;
+    margin-left: 18px;
+    margin-top: 4px;
+}
+
+#div103 {
+    position: absolute;
+    top: 2px;
+    left: 18px;
+    text-align: left;
+    vertical-align: middle;
+    right: -43px;
+    width: auto;
+    bottom: 1px;
+    height: auto;
+}
+
+#div104 {
+    position: relative;
+    display: table-cell;
+    vertical-align: top;
+    height: auto;
+    width: 50%;
+}
+
+#div104 {
+    position: relative;
+    display: table-cell;
+    vertical-align: top;
+    height: auto;
+    width: 50%;
+}
+
+#checkboxItemComboPotion1 {
+    font-family: HelveticaNeue;
+    font-size: 10pt;
+    position: relative;
+    -webkit-margin-top-collapse: separate;
+    -webkit-margin-bottom-collapse: separate;
+    margin-left: 18px;
+    margin-top: 4px;
+    width: 80px;
+}
+
+#div104 {
+    position: absolute;
+    top: 2px;
+    left: 18px;
+    text-align: left;
+    vertical-align: middle;
+    right: -41px;
+    width: auto;
+    bottom: 1px;
+    height: auto;
+}
+
+#div105 {
+    position: relative;
+    display: table-cell;
+    vertical-align: top;
+    height: auto;
+    width: 50%;
+}
+
+#div105 {
+    position: relative;
+    display: table-cell;
+    vertical-align: top;
+    height: auto;
+    width: 50%;
+}
+
+#checkboxItemComboPotion2 {
+    font-family: HelveticaNeue;
+    font-size: 10pt;
+    position: relative;
+    -webkit-margin-top-collapse: separate;
+    -webkit-margin-bottom-collapse: separate;
+    margin-left: 18px;
+    margin-top: 4px;
+    width: 80px;
+}
+
+#div105 {
+    position: absolute;
+    top: 2px;
+    left: 18px;
+    text-align: left;
+    vertical-align: middle;
+    right: -41px;
+    width: auto;
+    bottom: 1px;
+    height: auto;
+}
+
+#div106 {
+    position: relative;
+    display: table-cell;
+    vertical-align: top;
+    height: auto;
+    width: 50%;
+}
+
+#div106 {
+    position: relative;
+    display: table-cell;
+    vertical-align: top;
+    height: auto;
+    width: 50%;
+}
+
+#checkboxItemComboPotion3 {
+    font-family: HelveticaNeue;
+    font-size: 10pt;
+    position: relative;
+    -webkit-margin-top-collapse: separate;
+    -webkit-margin-bottom-collapse: separate;
+    margin-left: 18px;
+    margin-top: 4px;
+    width: 80px;
+}
+
+#div106 {
+    position: absolute;
+    top: 2px;
+    left: 18px;
+    text-align: left;
+    vertical-align: middle;
+    right: -41px;
+    width: auto;
+    bottom: 1px;
+    height: auto;
+}
+
+#div107 {
+    position: relative;
+    display: table-cell;
+    vertical-align: top;
+    height: auto;
+    width: 50%;
+}
+
+#div107 {
+    position: relative;
+    display: table-cell;
+    vertical-align: top;
+    height: auto;
+    width: 50%;
+}
+
+#checkboxItemComboPotion4 {
+    font-family: HelveticaNeue;
+    font-size: 10pt;
+    position: relative;
+    -webkit-margin-top-collapse: separate;
+    -webkit-margin-bottom-collapse: separate;
+    margin-left: 18px;
+    margin-top: 4px;
+    width: 80px;
+}
+
+#div107 {
+    position: absolute;
+    top: 2px;
+    left: 18px;
+    text-align: left;
+    vertical-align: middle;
+    right: -41px;
+    width: auto;
+    bottom: 1px;
+    height: auto;
+}
+
+#div108 {
+    position: relative;
+    display: table-cell;
+    vertical-align: top;
+    height: auto;
+    width: 50%;
+}
+
+#div108 {
+    position: relative;
+    display: table-cell;
+    vertical-align: top;
+    height: auto;
+    width: 50%;
+}
+
+#checkboxItemComboPotion5 {
+    font-family: HelveticaNeue;
+    font-size: 10pt;
+    position: relative;
+    -webkit-margin-top-collapse: separate;
+    -webkit-margin-bottom-collapse: separate;
+    margin-left: 18px;
+    margin-top: 4px;
+    width: 80px;
+}
+
+#div108 {
+    position: absolute;
+    top: 2px;
+    left: 18px;
+    text-align: left;
+    vertical-align: middle;
+    right: -41px;
+    width: auto;
+    bottom: 1px;
+    height: auto;
+}
+
+#div109 {
+    position: relative;
+    display: table-cell;
+    vertical-align: top;
+    height: auto;
+    width: 50%;
+}
+
+#div109 {
+    position: relative;
+    display: table-cell;
+    vertical-align: top;
+    height: auto;
+    width: 50%;
+}
+
+#checkboxNewCombo1 {
+    font-family: HelveticaNeue;
+    font-size: 10pt;
+    position: relative;
+    -webkit-margin-top-collapse: separate;
+    -webkit-margin-bottom-collapse: separate;
+    margin-left: 18px;
+    margin-top: 4px;
+    width: 114px;
+}
+
+#div109 {
+    position: absolute;
+    top: 2px;
+    left: 18px;
+    text-align: left;
+    vertical-align: middle;
+    right: -41px;
+    width: auto;
+    bottom: 1px;
+    height: auto;
+}
+
+#div110 {
+    position: relative;
+    display: table-cell;
+    vertical-align: top;
+    height: auto;
+    width: 50%;
+}
+
+#div110 {
+    position: relative;
+    display: table-cell;
+    vertical-align: top;
+    height: auto;
+    width: 50%;
+}
+
+#checkboxNewCombo2 {
+    font-family: HelveticaNeue;
+    font-size: 10pt;
+    position: relative;
+    -webkit-margin-top-collapse: separate;
+    -webkit-margin-bottom-collapse: separate;
+    margin-left: 18px;
+    margin-top: 4px;
+    width: 114px;
+}
+
+#div110 {
+    position: absolute;
+    top: 2px;
+    left: 18px;
+    text-align: left;
+    vertical-align: middle;
+    right: -41px;
+    width: auto;
+    bottom: 1px;
+    height: auto;
+}
+
+#div111 {
+    position: relative;
+    display: table-cell;
+    vertical-align: top;
+    height: auto;
+    width: 50%;
+}
+
+#div111 {
+    position: relative;
+    display: table-cell;
+    vertical-align: top;
+    height: auto;
+    width: 50%;
+}
+
+#checkboxNewCombo3 {
+    font-family: HelveticaNeue;
+    font-size: 10pt;
+    position: relative;
+    -webkit-margin-top-collapse: separate;
+    -webkit-margin-bottom-collapse: separate;
+    margin-left: 18px;
+    margin-top: 4px;
+    width: 114px;
+}
+
+#div111 {
+    position: absolute;
+    top: 2px;
+    left: 18px;
+    text-align: left;
+    vertical-align: middle;
+    right: -41px;
+    width: auto;
+    bottom: 1px;
+    height: auto;
+}
+
+#div112 {
+    position: relative;
+    display: table-cell;
+    vertical-align: top;
+    height: auto;
+    width: 50%;
+}
+
+#div112 {
+    position: relative;
+    display: table-cell;
+    vertical-align: top;
+    height: auto;
+    width: 50%;
+}
+
+#checkboxNewCombo4 {
+    font-family: HelveticaNeue;
+    font-size: 10pt;
+    position: relative;
+    -webkit-margin-top-collapse: separate;
+    -webkit-margin-bottom-collapse: separate;
+    margin-left: 18px;
+    margin-top: 4px;
+    width: 114px;
+}
+
+#div112 {
+    position: absolute;
+    top: 2px;
+    left: 18px;
+    text-align: left;
+    vertical-align: middle;
+    right: -41px;
+    width: auto;
+    bottom: 1px;
+    height: auto;
+}
+
+#div113 {
+    position: relative;
+    display: table-cell;
+    vertical-align: top;
+    height: auto;
+    width: 50%;
+}
+
+#div113 {
+    position: relative;
+    display: table-cell;
+    vertical-align: top;
+    height: auto;
+    width: 50%;
+}
+
+#checkboxNewCombo5 {
+    font-family: HelveticaNeue;
+    font-size: 10pt;
+    position: relative;
+    -webkit-margin-top-collapse: separate;
+    -webkit-margin-bottom-collapse: separate;
+    margin-left: 18px;
+    margin-top: 4px;
+    width: 114px;
+}
+
+#div113 {
+    position: absolute;
+    top: 2px;
+    left: 18px;
+    text-align: left;
+    vertical-align: middle;
+    right: -41px;
+    width: auto;
+    bottom: 1px;
+    height: auto;
+}
+
+#checkboxDebuffMonk {
+    width: 80px;
+    font-family: HelveticaNeue;
+    font-size: 10pt;
+    position: relative;
+    -webkit-margin-top-collapse: separate;
+    -webkit-margin-bottom-collapse: separate;
+    margin-left: 20px;
+    margin-top: 4px;
+}
+
+#div114 {
+    position: absolute;
+    top: 2px;
+    left: 18px;
+    text-align: left;
+    vertical-align: middle;
+    right: -50px;
+    width: auto;
+    bottom: 0px;
+    height: auto;
+}
+
+#buttonResetMaxHP {
+    font-family: Helvetica;
+    font-weight: bold;
+    font-size: 12px;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    text-shadow: rgba(0, 0, 0, 0.589844) 0px -1px 0px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    height: 30px;
+    -webkit-dashboard-region: dashboard-region(control rectangle);
+    cursor: default;
+    -webkit-user-select: none;
+    position: relative;
+    -webkit-margin-top-collapse: separate;
+    -webkit-margin-bottom-collapse: separate;
+    margin-top: 160px;
+    width: 123px;
+    margin-left: 25px;
+}

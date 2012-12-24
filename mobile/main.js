@@ -24,6 +24,8 @@ var APTarget         = new Array();
 var APdmg            = new Array(0, 0, 0, 0, 0, 0); //global variables for damage in each AP, including 0th AP
 var APres            = new Array(0, 0, 0, 0, 0, 0); //global variables for resistance in each AP, including 0th AP
 var APHeavySpinCount = new Array(0, 0, 0, 0, 0, 0); //global variables to keep track of heavy spin.
+var APComboCount     = new Array(0, 0, 0, 0, 0, 0); //global to keep track of combo points
+var HPBuff           = 0; // used to record soul harvest or manual buffs, so that recalculations still work.
 
 //===================================FUNCTION DECLARATIONS=======================================
 
@@ -48,7 +50,7 @@ function OCAttack(race, name, basedmg, dmgtype, percentage) //Object COnstructor
 	this.percentage = percentage; //float 0.50 is 50%. Multiply by the base damage to get the splash damage or bonus melee damage, as damage is rounded to the nearest 5 after all modifiers. 1.00 represents 100%, 0.50 represents 50% etc.
 }
 
-function OCTarget(puppet, lastdamage, maxhp, currenthp, itemhelm, itemshield, itemsoulstone, itemmanavial, buffbubble, debuffannihilator, buffbrew, itemspikearmor, debuffjarate) //constructs a target. The idea is that this target will be constructed at the setup phase and each attack will deal damage etc to the target.
+function OCTarget(puppet, lastdamage, maxhp, currenthp, itemhelm, itemshield, itemsoulstone, itemmanavial, buffbubble, debuffannihilator, buffbrew, itemspikearmor, debuffjarate, debuffmonk) //constructs a target. The idea is that this target will be constructed at the setup phase and each attack will deal damage etc to the target.
 {
 	this.puppet           = puppet; //so that we have the base target stats.
 	this.lastdamage       = lastdamage; //this is mainly so that DamageTarget can return the damage that the target has taken.
@@ -63,37 +65,8 @@ function OCTarget(puppet, lastdamage, maxhp, currenthp, itemhelm, itemshield, it
 	this.buffbrew         = buffbrew; //boolean
 	this.itemspikearmor   = itemspikearmor; //boolean
 	this.debuffjarate     = debuffjarate; //boolean
+    this.debuffmonk       = debuffmonk; // boolean
 }
-
-function UpdateTargetmaxhp(target)
-{
-	var maxhp = "target.puppet.basehp";
-
-	if (target.itemhelm)
-	{
-		maxhp = maxhp + (target.puppet.basehp * 1.1);
-	}
-
-	if (target.itemshield)
-	{
-		maxhp = maxhp + (target.puppet.basehp * 1.1);
-	}
-
-	if (target.itemspikearmor)
-	{
-		maxhp = maxhp + (target.puppet.basehp * 1.1);
-	}
-
-	if (target.itemmanavial)
-	{
-		maxhp = maxhp + 50;
-	}
-	
-	maxhp = maxhp + target.buffsoulharvest;
-	
-
-}
-
 
 function CalcAttack(attack, attacktile, mediclink, itemrunemetal, itemscroll, itemmeat, debuffpriestess, buffbloodlust, buffpaladindmg) //to calculate raw damage before resists and crystal drill damage.
 
@@ -181,7 +154,7 @@ function CalcAttack(attack, attacktile, mediclink, itemrunemetal, itemscroll, it
 
 }
 
-function CalcResist(target, attack, resisttile, buffpaladinres, debuffAnnihilator, debuffjarate)
+function CalcResist(target, attack, resisttile, buffpaladinres, debuffannihilator, debuffjarate, debuffpoisoner)
 {
     var resist = 0;
     
@@ -236,7 +209,7 @@ function CalcResist(target, attack, resisttile, buffpaladinres, debuffAnnihilato
             resist = resist + 0.20;
         }
     }
-    if (debuffAnnihilator && (attack.dmgtype == Cphy))
+    if (debuffannihilator && (attack.dmgtype == Cphy))
     {
         resist = resist - 0.5;
     }
@@ -244,6 +217,11 @@ function CalcResist(target, attack, resisttile, buffpaladinres, debuffAnnihilato
     if (debuffjarate)
     {
         resist = resist - 1.75;
+    }
+    
+    if (debuffpoisoner)
+    {
+        resist = resist - 0.4;
     }
 
     resist = Math.round(resist * 100) / 100;
@@ -277,7 +255,7 @@ var CL_A_ArcherM  = new OCAttack("CL",  "Archer Melee Attack", 150, Cphy, 1.00);
 var CL_A_ArcherR  = new OCAttack("CL", "Archer Ranged Attack", 300, Cphy, 1.00);
 var CL_A_Wizard1  = new OCAttack("CL", "Wizard Direct Attack", 200, Cmag, 1.00);
 var CL_A_Wizard2  = new OCAttack("CL",   "Wizard First Chain", 200, Cmag, 0.75);
-var CL_A_Wizard3  = new OCAttack("CL",  "Wizard Second Chain", 200, Cmag, 0.50);
+var CL_A_Wizard3  = new OCAttack("CL",  "Wizard Second Chain", 200, Cmag, 0.56);
 var CL_A_Cleric   = new OCAttack("CL",        "Cleric Attack", 200, Cmag, 1.00);
 var CL_A_NinjaR   = new OCAttack("CL",  "Ninja Ranged Attack", 200, Cphy, 1.00);
 var CL_A_NinjaM   = new OCAttack("CL",   "Ninja Melee Attack", 200, Cphy, 2.00);
@@ -485,6 +463,44 @@ var TF_Attacks = [
 
 //===================================SHAOLIN DATA SETUP=======================================
 
+var SL_P_Monk      = new OCPuppet("SL", "Monk"      , 0.00, 0.00, 1000);
+var SL_P_Windblade = new OCPuppet("SL", "Windblade" , 0.00, 0.00,  800);
+var SL_P_Poisoner  = new OCPuppet("SL", "Poisoner"  , 0.00, 0.00,  650);
+var SL_P_Taoist    = new OCPuppet("SL", "Taoist"    , 0.00, 0.00,  800);
+var SL_P_Shadow    = new OCPuppet("SL", "Shadow"    , 0.20, 0.00, 1000);
+
+var SL_Team = [
+    SL_P_Monk,
+    SL_P_Windblade,
+    SL_P_Poisoner,
+    SL_P_Taoist,
+    SL_P_Shadow];
+    
+var SL_A_Monk       = new OCAttack("SL", "Monk Attack"                   , 200, Cphy, 1.00);
+var SL_A_Windblade1 = new OCAttack("SL", "Windblade Direct Attack"       , 200, Cphy, 1.00);
+var SL_A_Windblade2 = new OCAttack("SL", "Windblade First Chain Attack"  , 200, Cphy, 0.50);
+var SL_A_Windblade3 = new OCAttack("SL", "Windblade Second Chain Attack" , 200, Cphy, 0.25);
+var SL_A_Poisoner   = new OCAttack("SL", "Poisoner Attack"               , 200, Cmag, 1.00);
+var SL_A_Taoist     = new OCAttack("SL", "Taoist Attack"                 , 200, Cmag, 1.00);
+var SL_A_Shadow     = new OCAttack("SL", "Shadow Attack"                 , 100, Cmag, 1.00);
+var SL_A_Dragon1    = new OCAttack("SL", "Dragon Direct Attack"          , 600, Cmag, 1.00);
+var SL_A_Dragon2    = new OCAttack("SL", "Dragon First Chain Attack"     , 600, Cmag, 0.75);
+var SL_A_Dragon3    = new OCAttack("SL", "Dragon Second Chain Attack"    , 600, Cmag, 0.5625);
+var SL_A_Dragon4    = new OCAttack("SL", "Dragon Third Chain Attack"     , 600, Cmag, 0.421875);
+
+var SL_Attacks = [
+    SL_A_Monk,
+    SL_A_Windblade1,
+    SL_A_Windblade2,
+    SL_A_Windblade3,
+    SL_A_Poisoner,
+    SL_A_Taoist,
+    SL_A_Shadow,
+    SL_A_Dragon1,
+    SL_A_Dragon2,
+    SL_A_Dragon3,
+    SL_A_Dragon4];
+
 //===================================MISC/LEVEL DATA SETUP=======================================
 
 
@@ -505,10 +521,10 @@ DE_Attacks = DE_Attacks.concat(MS_Attacks);
 DW_Attacks = DW_Attacks.concat(MS_Attacks);
 TR_Attacks = TR_Attacks.concat(MS_Attacks);
 TF_Attacks = TF_Attacks.concat(MS_Attacks);
+SL_Attacks = SL_Attacks.concat(MS_Attacks);
 
-
-var AllRace_Team = [CL_Team, DE_Team, DW_Team, TR_Team, TF_Team]; // array of all teams. For target selection.
-var AllRace_Attacks = [CL_Attacks, DE_Attacks, DW_Attacks, TR_Attacks, TF_Attacks]; // array of all attack arrays.
+var AllRace_Team = [CL_Team, DE_Team, DW_Team, TR_Team, TF_Team, SL_Team]; // array of all teams. For target selection.
+var AllRace_Attacks = [CL_Attacks, DE_Attacks, DW_Attacks, TR_Attacks, TF_Attacks, SL_Attacks]; // array of all attack arrays.
 
 
 //===================================DECLARE ELEMENT VAR======================================
@@ -521,6 +537,8 @@ var checkboxinputShield       = new Object();
 var checkboxdivHelm           = new Object();
 var checkboxdivShield         = new Object();
 var checkboxinputItemManaVial = new Object();
+var checkboxinputBuffBrew     = new Object();
+var checkboxinputDebuffMonk   = new Object();
 var textFieldInitialMaxHP     = new Object();
 var textFieldInitialCurrentHP = new Object();
 
@@ -573,6 +591,20 @@ var checkboxinputBuffBloodLustArray = Array("",
     "checkboxinputBuffBloodLust4",
     "checkboxinputBuffBloodLust5");
 
+var checkboxinputItemComboPotionArray = Array("",
+    "checkboxinputItemComboPotion1",
+    "checkboxinputItemComboPotion2",
+    "checkboxinputItemComboPotion3",
+    "checkboxinputItemComboPotion4",
+    "checkboxinputItemComboPotion5");
+
+var checkboxinputNewComboArray = Array("",
+    "checkboxinputNewCombo1",
+    "checkboxinputNewCombo2",
+    "checkboxinputNewCombo3",
+    "checkboxinputNewCombo4",
+    "checkboxinputNewCombo5");
+
 var popupBuffPaladinDmgArray = Array("",
     "popupBuffPaladinDmg1",
     "popupBuffPaladinDmg2",
@@ -607,6 +639,13 @@ var checkboxinputDebuffJarateArray = Array("",
     "checkboxinputDebuffJarate3",
     "checkboxinputDebuffJarate4",
     "checkboxinputDebuffJarate5");
+
+var checkboxinputDebuffPoisonerArray = Array("",
+    "checkboxinputDebuffPoisoner1",
+    "checkboxinputDebuffPoisoner2",
+    "checkboxinputDebuffPoisoner3",
+    "checkboxinputDebuffPoisoner4",
+    "checkboxinputDebuffPoisoner5");
     
 var popupBuffPaladinResArray = Array("",
     "popupBuffPaladinRes1",
@@ -648,11 +687,14 @@ var checkboxinputAttackTile       = new Object();
 var checkboxinputItemScroll       = new Object();
 var checkboxinputItemMeat         = new Object();
 var checkboxinputBuffBloodLust    = new Object();
+var checkboxinputItemComboPotion  = new Object();
+var checkboxinputNewCombo         = new Object();
 var popupBuffPaladinDmg           = new Object();
 var checkboxinputResistTile       = new Object();
 var checkboxinputDebuffAnnihilator = new Object();
 var checkboxinputDebuffPriestess  = new Object();
 var checkboxinputDebuffJarate     = new Object();
+var checkboxinputDebuffPoisoner   = new Object();
 var popupBuffPaladinRes           = new Object();
 var textAttackValue               = new Object();
 var textResistValue               = new Object();
@@ -691,6 +733,7 @@ function InitialiseObjects()
     checkboxdivShield               = document.getElementById("checkboxdivShield");
     checkboxinputItemManaVial       = document.getElementById("checkboxinputItemManaVial");
     checkboxinputBuffBrew           = document.getElementById("checkboxinputBuffBrew");
+    checkboxinputDebuffMonk         = document.getElementById("checkboxinputDebuffMonk");
     textFieldInitialMaxHP           = document.getElementById("textFieldInitialMaxHP");
     textFieldInitialCurrentHP       = document.getElementById("textFieldInitialCurrentHP");
 
@@ -812,6 +855,8 @@ function AttackUpdate(AP)
     checkboxinputItemScroll       = document.getElementById(checkboxinputItemScrollArray[AP]);
     checkboxinputItemMeat         = document.getElementById(checkboxinputItemMeatArray[AP]);
     checkboxinputBuffBloodLust    = document.getElementById(checkboxinputBuffBloodLustArray[AP]);
+    checkboxinputItemComboPotion  = document.getElementById(checkboxinputItemComboPotionArray[AP]);
+    checkboxinputNewCombo         = document.getElementById(checkboxinputNewComboArray[AP]);
     popupBuffPaladinDmg           = document.getElementById(popupBuffPaladinDmgArray[AP]);
     checkboxinputDebuffAnnihilator = document.getElementById(checkboxinputDebuffAnnihilatorArray[AP]);
     checkboxinputDebuffPriestess  = document.getElementById(checkboxinputDebuffPriestessArray[AP]);
@@ -839,6 +884,28 @@ function AttackUpdate(AP)
         APHeavySpinCount[AP] = 0;
     }
     
+    APComboCount[AP] = APComboCount[AP-1];
+        
+    if ((AllRace_Attacks[popupAttackerRaceValue][popupAttackValue].race == "SL") && (checkboxinputNewCombo.checked))
+    {
+        if (checkboxinputItemComboPotion.checked)
+        {
+            APComboCount[AP] = APComboCount[AP] + 1;
+        }
+        
+        APdmg[AP] = APdmg[AP] + (APComboCount[AP] * 200);
+        APComboCount[AP] = APComboCount[AP] + 1;
+    }
+    else if ((AllRace_Attacks[popupAttackerRaceValue][popupAttackValue].race == "SL") && (checkboxinputItemComboPotion.checked))
+    {
+        APdmg[AP] = APdmg[AP] + (APComboCount[AP] * 200);
+        
+        if (APComboCount[AP] < 2)
+        {
+            APComboCount[AP] = APComboCount[AP] + 1;
+        }
+    }
+        
     textAttackValue.innerText = APdmg[AP];
     
     APdmg[AP] = APdmg[AP] - (APdmg[AP] * APres[AP]);
@@ -848,6 +915,14 @@ function AttackUpdate(AP)
     {
         APdmg[AP] = 0;
     }
+    
+    if ((AllRace_Attacks[popupAttackerRaceValue][popupAttackValue].name == "Monk Attack") && (APdmg[AP] > 0))
+    {
+        APTarget[AP+1].debuffmonk = true;
+        UpdateMaxHP(APTarget[AP+1]);
+    }
+    
+    
     
     if ((AllRace_Attacks[popupAttackerRaceValue][popupAttackValue].name == "Warrior Attack") && ((APTarget[AP-1].currenthp / APTarget[AP-1].maxhp) <= 0.5) && APdmg[AP] > 0) // deal with warrior, here due to HP condition
     {
@@ -871,10 +946,10 @@ function AttackUpdate(AP)
         {
             if (APTarget[AP].itemsoulstone || APTarget[AP].itemshield || APTarget[AP].itemspikearmor)
             {
-                APTarget[AP+1].maxhp = APTarget[AP+1].maxhp - (APTarget[AP+1].puppet.basehp * 0.1);
                 APTarget[AP+1].itemsoulstone = false;
                 APTarget[AP+1].itemshield = false;
                 APTarget[AP+1].itemspikearmor = false;
+                UpdateMaxHP(APTarget[AP+1]);
             }
         }
         
@@ -910,6 +985,7 @@ function ResistUpdate(AP)
     popupAttack                   = document.getElementById(popupAttackArray[AP]);
     checkboxinputResistTile       = document.getElementById(checkboxinputResistTileArray[AP]);
     checkboxinputDebuffJarate     = document.getElementById(checkboxinputDebuffJarateArray[AP]);
+    checkboxinputDebuffPoisoner   = document.getElementById(checkboxinputDebuffPoisonerArray[AP]);
     popupBuffPaladinRes           = document.getElementById(popupBuffPaladinResArray[AP]);
     checkboxinputDebuffAnnihilator = document.getElementById(checkboxinputDebuffAnnihilatorArray[AP]);
     textResistValue               = document.getElementById(textResistValueArray[AP]);    
@@ -917,7 +993,7 @@ function ResistUpdate(AP)
     var popupAttackerRaceValue = popupAttackerRace.value;
     var popupAttackValue = popupAttack.value;    
     var attack = AllRace_Attacks[popupAttackerRaceValue][popupAttackValue];
-    APres[AP] = CalcResist(APTarget[AP], attack, checkboxinputResistTile.checked, popupBuffPaladinRes.value, checkboxinputDebuffAnnihilator.checked, checkboxinputDebuffJarate.checked);
+    APres[AP] = CalcResist(APTarget[AP], attack, checkboxinputResistTile.checked, popupBuffPaladinRes.value, checkboxinputDebuffAnnihilator.checked, checkboxinputDebuffJarate.checked, checkboxinputDebuffPoisoner.checked);
     
     if (APres[AP] > 1.00)
     {
@@ -971,7 +1047,7 @@ function AP5UpdateAll(event) //helper function because Dashcode doesn't allow ha
 function UpdateMaxHP(target)
 {
     
-    var MaxHP = target.puppet.basehp;
+    var MaxHP= target.puppet.basehp + HPBuff;
     
     if (target.itemhelm)
     {
@@ -987,6 +1063,13 @@ function UpdateMaxHP(target)
     {
         MaxHP = MaxHP + 50;
     }
+    
+    if (target.debuffmonk)
+    {
+        MaxHP = MaxHP - (target.puppet.basehp * 0.25);
+    }
+
+    MaxHP = 5 * Math.round(MaxHP/5)
     
     target.maxhp =  MaxHP;
 
@@ -1020,9 +1103,12 @@ function UpdateTarget1(event) // only used to set APTarget[0] and [1]. The rest 
 
     //always reset 0th target
 
-    APTarget[0] = new OCTarget(SelectedTarget, 0, 0, 0, checkboxinputHelm.checked, shield, soulstone, checkboxinputItemManaVial.checked, checkboxinputBuffBubble.checked, false, checkboxinputBuffBrew.checked, spikearmor, false);
+    APTarget[0] = new OCTarget(SelectedTarget, 0, 0, 0, checkboxinputHelm.checked, shield, soulstone, checkboxinputItemManaVial.checked, checkboxinputBuffBubble.checked, false, checkboxinputBuffBrew.checked, spikearmor, false, checkboxinputDebuffMonk.checked);
     
-    UpdateMaxHP(APTarget[0]);
+    var x = HPBuff;
+    HPBuff = 0;
+    UpdateMaxHP(APTarget[0]); // Oth target maxhp should not include any user changes (i.e. soul bomb)
+    HPBuff = x;
     
     textFieldInitialMaxHP.value = APTarget[0].maxhp;
     textFieldInitialCurrentHP.value = APTarget[0].maxhp;
@@ -1030,7 +1116,7 @@ function UpdateTarget1(event) // only used to set APTarget[0] and [1]. The rest 
     APTarget[0].currenthp = textFieldInitialCurrentHP.value;
 
 
-    APTarget[1] = new OCTarget(SelectedTarget, 0, 0, 0, checkboxinputHelm.checked, shield, soulstone, checkboxinputItemManaVial.checked, checkboxinputBuffBubble.checked, false, checkboxinputBuffBrew.checked, spikearmor, false);
+    APTarget[1] = new OCTarget(SelectedTarget, 0, 0, 0, checkboxinputHelm.checked, shield, soulstone, checkboxinputItemManaVial.checked, checkboxinputBuffBubble.checked, false, checkboxinputBuffBrew.checked, spikearmor, false, checkboxinputDebuffMonk.checked);
     
     UpdateMaxHP(APTarget[1]);
     
@@ -1045,12 +1131,14 @@ function UpdateTarget1(event) // only used to set APTarget[0] and [1]. The rest 
 function SetMaxHP(event)
 {
     APTarget[1].maxhp = textFieldInitialMaxHP.value;
-    APTarget[1].currenthp = textFieldInitialCurrentHP.value;
-    APTarget[0].maxhp = textFieldInitialMaxHP.value;
-    APTarget[0].currenthp = textFieldInitialCurrentHP.value;
-        
-    textFieldInitialCurrentHP.value = APTarget[1].maxhp;    
+    APTarget[1].currenthp = textFieldInitialMaxHP.value;
+    
+    HPBuff = APTarget[1].maxhp - APTarget[0].maxhp;
 
+//    APTarget[0].maxhp = textFieldInitialMaxHP.value;
+    
+    APTarget[0].currenthp = textFieldInitialMaxHP.value;
+    textFieldInitialCurrentHP.value = textFieldInitialMaxHP.value;;    
 
     AP1UpdateAll();
 }
@@ -1109,4 +1197,11 @@ function CopyToAllAP(event)
     
     AP1UpdateAll();
 
+}
+
+
+function ResetMaxHP(event)
+{
+    HPBuff = 0; //reset HP buff, used to calculate max HP.
+    UpdateTarget1();
 }

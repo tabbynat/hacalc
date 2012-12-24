@@ -23,7 +23,9 @@
                         <option id="option2" value="2">Dwarves</option>
                         <option value="3" id="option3">Tribe</option>
                         <option value="4" id="option4">Team Fortress</option>
+                        <option value="5">Shaolin</option>
                     </select>
+                    <div id="buttonResetMaxHP"></div>
                 </div></div><div id="div1"><div id="DefenderColumn">
                     <div id="textDefenderRace"></div>
                     <select id="popupDefenderRace" apple-style-relative="height: 20px;" name="popupDefenderRace" onchange="PopupDefenderRaceUpdate(event)">
@@ -32,6 +34,7 @@
                         <option id="option7" value="2">Dwarves</option>
                         <option id="option8" value="3">Tribe</option>
                         <option value="4" id="option9">Team Fortress</option>
+                        <option value="5">Shaolin</option>
                     </select>
                     <select id="popupTarget" apple-style-relative="height: 20px;" onchange="UpdateTarget1(event)">
                     </select>
@@ -54,6 +57,10 @@
                     <div id="checkboxBuffBrew">
                         <input type="checkbox" name="Checkbox" id="checkboxinputBuffBrew" onchange="UpdateTarget1(event)">
                         <div id="div26">Dwarven Brew</div>
+                    </div>
+                    <div id="checkboxDebuffMonk">
+                        <input type="checkbox" name="Checkbox" id="checkboxinputDebuffMonk" onchange="UpdateTarget1(event)">
+                        <div id="div114">Monk HP Debuff</div>
                     </div>
                     <div id="columnLayout5">
                         <div style="position: relative; display: table-cell; vertical-align: top; height: auto; width: 50%; " id="div16"><div id="column8">
@@ -98,6 +105,14 @@
                             <input type="checkbox" name="CheckboxBloodLust" id="checkboxinputBuffBloodLust1" onchange="AP1UpdateAll(event)">
                             <div id="div7">Blood Lust</div>
                         </div>
+                        <div id="checkboxItemComboPotion1">
+                            <input type="checkbox" name="Checkbox" id="checkboxinputItemComboPotion1" onchange="AP1UpdateAll(event)">
+                            <div id="div104">Combo Potion</div>
+                        </div>
+                        <div id="checkboxNewCombo1">
+                            <input type="checkbox" name="Checkbox" id="checkboxinputNewCombo1" onchange="AP1UpdateAll(event)">
+                            <div id="div109">New Combo Attack</div>
+                        </div>
                         <div id="text"></div>
                         <select id="popupBuffPaladinDmg1" apple-style-relative="height: 20px;" onchange="AP1UpdateAll(event)">
                             <option selected="selected" id="option10">0</option>
@@ -121,6 +136,10 @@
                         <div id="checkboxDebuffJarate">
                             <input type="checkbox" name="Checkbox" id="checkboxinputDebuffJarate1" onchange="AP1UpdateAll(event)">
                             <div id="div13">Jarate Debuff</div>
+                        </div>
+                        <div id="checkboxDebuffPoisoner1">
+                            <input type="checkbox" name="Checkbox" id="checkboxinputDebuffPoisoner1" onchange="AP1UpdateAll(event)">
+                            <div id="div99">Poisoner Debuff</div>
                         </div>
                         <div id="text1"></div>
                         <select id="popupBuffPaladinRes1" apple-style-relative="height: 20px;" onchange="AP1UpdateAll(event)">
@@ -192,6 +211,14 @@
                             <input type="checkbox" name="CheckboxBloodLust" id="checkboxinputBuffBloodLust2" onchange="AP2UpdateAll(event)">
                             <div id="div29">Blood Lust</div>
                         </div>
+                        <div id="checkboxItemComboPotion2">
+                            <input type="checkbox" name="Checkbox" id="checkboxinputItemComboPotion2" onchange="AP2UpdateAll(event)">
+                            <div id="div105">Combo Potion</div>
+                        </div>
+                        <div id="checkboxNewCombo2">
+                            <input type="checkbox" name="Checkbox" id="checkboxinputNewCombo2" onchange="AP2UpdateAll(event)">
+                            <div id="div110">New Combo Attack</div>
+                        </div>
                         <div id="text8"></div>
                         <select id="popupBuffPaladinDmg2" apple-style-relative="height: 20px;" onchange="AP2UpdateAll(event)">
                             <option selected="selected" id="option18">0</option>
@@ -215,6 +242,10 @@
                         <div id="checkboxDebuffJarate1">
                             <input type="checkbox" name="Checkbox" id="checkboxinputDebuffJarate2" onchange="AP2UpdateAll(event)">
                             <div id="div34">Jarate Debuff</div>
+                        </div>
+                        <div id="checkboxDebuffPoisoner2">
+                            <input type="checkbox" name="Checkbox" id="checkboxinputDebuffPoisoner2" onchange="AP2UpdateAll(event)">
+                            <div id="div100">Poisoner Debuff</div>
                         </div>
                         <div id="text9"></div>
                         <select id="popupBuffPaladinRes2" apple-style-relative="height: 20px;" onchange="AP2UpdateAll(event)">
@@ -285,6 +316,14 @@
                             <input type="checkbox" name="CheckboxBloodLust" id="checkboxinputBuffBloodLust3" onchange="AP2UpdateAll(event)">
                             <div id="div47">Blood Lust</div>
                         </div>
+                        <div id="checkboxItemComboPotion3">
+                            <input type="checkbox" name="Checkbox" id="checkboxinputItemComboPotion3" onchange="AP3UpdateAll(event)">
+                            <div id="div106">Combo Potion</div>
+                        </div>
+                        <div id="checkboxNewCombo3">
+                            <input type="checkbox" name="Checkbox" id="checkboxinputNewCombo3" onchange="AP3UpdateAll(event)">
+                            <div id="div111">New Combo Attack</div>
+                        </div>
                         <div id="text17"></div>
                         <select id="popupBuffPaladinDmg3" apple-style-relative="height: 20px;" onchange="AP3UpdateAll(event)">
                             <option selected="selected" id="option26">0</option>
@@ -308,6 +347,10 @@
                         <div id="checkboxDebuffJarate2">
                             <input type="checkbox" name="Checkbox" id="checkboxinputDebuffJarate3" onchange="AP3UpdateAll(event)">
                             <div id="div52">Jarate Debuff</div>
+                        </div>
+                        <div id="checkboxDebuffPoisoner3">
+                            <input type="checkbox" name="Checkbox" id="checkboxinputDebuffPoisoner3" onchange="AP3UpdateAll(event)">
+                            <div id="div101">Poisoner Debuff</div>
                         </div>
                         <div id="text18"></div>
                         <select id="popupBuffPaladinRes3" apple-style-relative="height: 20px;" onchange="AP3UpdateAll(event)">
@@ -378,6 +421,14 @@
                             <input type="checkbox" name="CheckboxBloodLust" id="checkboxinputBuffBloodLust4" onchange="AP4UpdateAll(event)">
                             <div id="div65">Blood Lust</div>
                         </div>
+                        <div id="checkboxItemComboPotion4">
+                            <input type="checkbox" name="Checkbox" id="checkboxinputItemComboPotion4" onchange="AP4UpdateAll(event)">
+                            <div id="div107">Combo Potion</div>
+                        </div>
+                        <div id="checkboxNewCombo4">
+                            <input type="checkbox" name="Checkbox" id="checkboxinputNewCombo4" onchange="AP4UpdateAll(event)">
+                            <div id="div112">New Combo Attack</div>
+                        </div>
                         <div id="text24"></div>
                         <select id="popupBuffPaladinDmg4" apple-style-relative="height: 20px;" onchange="AP4UpdateAll(event)">
                             <option selected="selected" id="option34">0</option>
@@ -401,6 +452,10 @@
                         <div id="checkboxDebuffJarate3">
                             <input type="checkbox" name="Checkbox" id="checkboxinputDebuffJarate4" onchange="AP4UpdateAll(event)">
                             <div id="div70">Jarate Debuff</div>
+                        </div>
+                        <div id="checkboxDebuffPoisoner4">
+                            <input type="checkbox" name="Checkbox" id="checkboxinputDebuffPoisoner4" onchange="AP4UpdateAll(event)">
+                            <div id="div102">Poisoner Debuff</div>
                         </div>
                         <div id="text25"></div>
                         <select id="popupBuffPaladinRes4" apple-style-relative="height: 20px;" onchange="AP4UpdateAll(event)">
@@ -471,6 +526,14 @@
                             <input type="checkbox" name="CheckboxBloodLust" id="checkboxinputBuffBloodLust5" onchange="AP5UpdateAll(event)">
                             <div id="div83">Blood Lust</div>
                         </div>
+                        <div id="checkboxItemComboPotion5">
+                            <input type="checkbox" name="Checkbox" id="checkboxinputItemComboPotion5" onchange="AP5UpdateAll(event)">
+                            <div id="div108">Combo Potion</div>
+                        </div>
+                        <div id="checkboxNewCombo5">
+                            <input type="checkbox" name="Checkbox" id="checkboxinputNewCombo5" onchange="AP5UpdateAll(event)">
+                            <div id="div113">New Combo Attack</div>
+                        </div>
                         <div id="text31"></div>
                         <select id="popupBuffPaladinDmg5" apple-style-relative="height: 20px;" onchange="AP5UpdateAll(event)">
                             <option selected="selected" id="option42">0</option>
@@ -494,6 +557,10 @@
                         <div id="checkboxDebuffJarate4">
                             <input type="checkbox" name="Checkbox" id="checkboxinputDebuffJarate5" onchange="AP5UpdateAll(event)">
                             <div id="div88">Jarate Debuff</div>
+                        </div>
+                        <div id="checkboxDebuffPoisoner5">
+                            <input type="checkbox" name="Checkbox" id="checkboxinputDebuffPoisoner5" onchange="AP5UpdateAll(event)">
+                            <div id="div103">Poisoner Debuff</div>
                         </div>
                         <div id="text32"></div>
                         <select id="popupBuffPaladinRes5" apple-style-relative="height: 20px;" onchange="AP5UpdateAll(event)">

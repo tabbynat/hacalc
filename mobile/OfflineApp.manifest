@@ -11,6 +11,10 @@ Parts/Images/ButtonCopyToAllAP.png
 Parts/Images/ButtonCopyToAllAP__mid.png
 Parts/Images/ButtonCopyToAllAP_clicked.png
 Parts/Images/ButtonCopyToAllAP_clicked__mid.png
+Parts/Images/buttonResetMaxHP.png
+Parts/Images/buttonResetMaxHP__mid.png
+Parts/Images/buttonResetMaxHP_clicked.png
+Parts/Images/buttonResetMaxHP_clicked__mid.png
 Parts/parts.js
 ../Parts/core/external/sizzle_c.js
 ../Parts/license.txt

@@ -14,7 +14,8 @@ if(!window.dashcode){dashcode=new Object()}dashcode.setupParts=function(){if(das
  */
 var dashcodePartSpecs = {
     "ButtonCopyToAllAP": { "initialHeight": 30, "initialWidth": 122, "leftImageWidth": 5, "onclick": "CopyToAllAP", "rightImageWidth": 5, "text": "Copy to all AP", "view": "DC.PushButton" },
-    "footer": { "text": "Developed by Tabby_Nat. Free to use, copy and modify, but please attribute and let me know!", "view": "DC.Text" },
+    "buttonResetMaxHP": { "initialHeight": 30, "initialWidth": 123, "leftImageWidth": 5, "onclick": "ResetMaxHP", "rightImageWidth": 5, "text": "Reset Max HP", "view": "DC.PushButton" },
+    "footer": { "text": "Ver b0.5 Developed by Tabby_Nat. Free to use, copy and modify, but please attribute and let me know!", "view": "DC.Text" },
     "text": { "text": "Paladin Attack Buff", "view": "DC.Text" },
     "text1": { "text": "Paladin Resist Buff", "view": "DC.Text" },
     "text10": { "text": "Attack", "view": "DC.Text" },
