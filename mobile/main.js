@@ -867,6 +867,11 @@ function AttackUpdate(AP)
     var popupAttackerRaceValue = popupAttackerRace.value;
     var popupAttackValue = popupAttack.value;
     
+    if (AP == 1)
+    {
+        APTarget[1] = Object.create(APTarget[0]); // reset the first target if first attack popup changes.
+    }
+    
     APdmg[AP] = CalcAttack(AllRace_Attacks[popupAttackerRaceValue][popupAttackValue], checkboxinputAttackTile.checked, checkboxinputMedicLink.checked, checkboxinputRunemetal.checked, checkboxinputItemScroll.checked, checkboxinputItemMeat.checked, checkboxinputDebuffPriestess.checked, checkboxinputBuffBloodLust.checked, popupBuffPaladinDmg.value);
     
     if ((AllRace_Attacks[popupAttackerRaceValue][popupAttackValue].name == "Axe Thrower Attack") && ((APTarget[AP-1].currenthp / APTarget[AP-1].maxhp) > 0.5)) // deal with axe thrower, here due to HP condition
@@ -915,15 +920,7 @@ function AttackUpdate(AP)
     {
         APdmg[AP] = 0;
     }
-    
-    if ((AllRace_Attacks[popupAttackerRaceValue][popupAttackValue].name == "Monk Attack") && (APdmg[AP] > 0))
-    {
-        APTarget[AP+1].debuffmonk = true;
-        UpdateMaxHP(APTarget[AP+1]);
-    }
-    
-    
-    
+        
     if ((AllRace_Attacks[popupAttackerRaceValue][popupAttackValue].name == "Warrior Attack") && ((APTarget[AP-1].currenthp / APTarget[AP-1].maxhp) <= 0.5) && APdmg[AP] > 0) // deal with warrior, here due to HP condition
     {
         APdmg[AP] = APTarget[AP].currenthp;
@@ -932,6 +929,12 @@ function AttackUpdate(AP)
     textDamageValue.innerText = APdmg[AP];
     
     APTarget[AP].currenthp = APTarget[AP-1].currenthp - APdmg[AP];
+
+    if ((AllRace_Attacks[popupAttackerRaceValue][popupAttackValue].name == "Monk Attack") && (APdmg[AP] > 0) && (AP < 5))
+    {
+        APTarget[AP].debuffmonk = true;
+        UpdateMaxHP(APTarget[AP]);
+    }
     
     textHPValue.innerText = APTarget[AP].currenthp + " / " + APTarget[AP].maxhp;
 
@@ -971,6 +974,12 @@ function AttackUpdate(AP)
         if ((APdmg[AP] > 0) && (APTarget[AP].buffbrew)) // remove brew buff
         {
             APTarget[AP+1].buffbrew = false;
+        }
+        
+        if ((APdmg[AP] > 0) && (AllRace_Attacks[popupAttackerRaceValue][popupAttackValue].name == "Poisoner Attack") && (AP < 5))
+        {
+            checkboxinputDebuffPoisoner = document.getElementById(checkboxinputDebuffPoisonerArray[AP+1]);
+            checkboxinputDebuffPoisoner.checked = true;
         }
     
     }
@@ -1072,6 +1081,11 @@ function UpdateMaxHP(target)
     MaxHP = 5 * Math.round(MaxHP/5)
     
     target.maxhp =  MaxHP;
+    
+    if (target.currenthp > target.maxhp)
+    {
+        target.currenthp = target.maxhp;
+    }
 
 }
 
