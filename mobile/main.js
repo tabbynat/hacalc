@@ -884,11 +884,6 @@ function AttackUpdate(AP)
     var popupAttackerRaceValue = popupAttackerRace.value;
     var popupAttackValue = popupAttack.value;
     
-    if (AP == 1)
-    {
-        APTarget[1] = Object.create(APTarget[0]); // reset the first target if first attack popup changes.
-    }
-    
     APdmg[AP] = CalcAttack(AllRace_Attacks[popupAttackerRaceValue][popupAttackValue], checkboxinputAttackTile.checked, checkboxinputMedicLink.checked, checkboxinputRunemetal.checked, checkboxinputItemScroll.checked, checkboxinputItemMeat.checked, checkboxinputDebuffPriestess.checked, checkboxinputBuffBloodLust.checked, popupBuffPaladinDmg.value);
     
     if ((AllRace_Attacks[popupAttackerRaceValue][popupAttackValue].name == "Axe Thrower Attack") && ((APTarget[AP-1].currenthp / APTarget[AP-1].maxhp) > 0.5)) // deal with axe thrower, here due to HP condition
@@ -907,28 +902,37 @@ function AttackUpdate(AP)
     }
     
     APComboCount[AP] = APComboCount[AP-1];
-        
-    if ((AllRace_Attacks[popupAttackerRaceValue][popupAttackValue].race == "SL") && (checkboxinputNewCombo.checked))
+
+    if (checkboxinputItemComboPotion.checked)
     {
-        if (checkboxinputItemComboPotion.checked)
+        APComboCount[AP] = APComboCount[AP] + 1;
+    }
+
+    if ((AllRace_Attacks[popupAttackerRaceValue][popupAttackValue].race == "SL") && (checkboxinputNewCombo.checked))
+    {        
+        if (APComboCount[AP] > 0)
         {
-            APComboCount[AP] = APComboCount[AP] + 1;
+            APdmg[AP] = APdmg[AP] + (100 * Math.pow(2,APComboCount[AP]));
         }
         
-        APdmg[AP] = APdmg[AP] + (APComboCount[AP] * 200);
         APComboCount[AP] = APComboCount[AP] + 1;
     }
     else if ((AllRace_Attacks[popupAttackerRaceValue][popupAttackValue].race == "SL") && (checkboxinputItemComboPotion.checked))
     {
-        APdmg[AP] = APdmg[AP] + (APComboCount[AP] * 200);
-        
-        if (APComboCount[AP] < 2)
-        {
-            APComboCount[AP] = APComboCount[AP] + 1;
-        }
+        APdmg[AP] = APdmg[AP] + 200;
     }
         
-    textAttackValue.innerText = APdmg[AP];
+    textAttackValue.innerText = APdmg[AP]; // update the damage value first
+    
+    if (AllRace_Attacks[popupAttackerRaceValue][popupAttackValue].name == "Taoist Attack") //taoist ignores beer and removes manavial
+    {
+        APTarget[AP].buffbrew = false;
+        APTarget[AP].itemmanavial = false;
+        UpdateMaxHP(APTarget[AP]);
+        ResistUpdate(AP);
+    }
+
+
     
     APdmg[AP] = APdmg[AP] - (APdmg[AP] * APres[AP]);
     APdmg[AP] = SLround(APdmg[AP]); //round to nearest 5
@@ -1036,6 +1040,7 @@ function ResistUpdate(AP)
 
 function AP1UpdateAll(event) //helper function because Dashcode doesn't allow handlers to pass parameters.
 {
+    APTarget[1] = Object.create(APTarget[0]); // reset the first target if first attack popup changes.
     ResistUpdate(1); //update resist first so that the damage can be calculated in AttackUpdate
     AttackUpdate(1);
     AP2UpdateAll();
