@@ -9,6 +9,25 @@
 // Called by HTML body element's onload event when the web application is ready to start
 //
 
+//===================================ROUND TO 5 FUNCTION=======================================
+// SL rounds damage and HP to the nearest 5, however, SL rounds 2.5 and 7.5 DOWN to 0 and 5 respectively, instead of up to 5 and 10.
+
+function SLround(inputnum)
+{
+    var tempnum = inputnum / 5;
+    var floortempnum = Math.floor(tempnum);
+    
+    if ((tempnum - floortempnum) == 0.5)
+    {
+        return (floortempnum * 5);
+    }
+    else
+    {
+        return (Math.round(tempnum) * 5);
+    }
+
+
+}
 
 //===================================CONSTANT DECLARATIONS=======================================
 
@@ -148,7 +167,7 @@ function CalcAttack(attack, attacktile, mediclink, itemrunemetal, itemscroll, it
         attackpower = attackpower + 300;
     }
     
-	attackpower = 5 * Math.round(attackpower/5) // Round to the nearest 5.
+	attackpower = SLround(attackpower) // Round to the nearest 5.
     
     return attackpower;
 
@@ -224,8 +243,6 @@ function CalcResist(target, attack, resisttile, buffpaladinres, debuffannihilato
         resist = resist - 0.4;
     }
 
-    resist = Math.round(resist * 100) / 100;
-
     return resist;
     
 }
@@ -284,9 +301,9 @@ var DE_P_Impaler     = new OCPuppet("DE",     "Impaler", 0.00, 0.00,  800);
 var DE_P_Necromancer = new OCPuppet("DE", "Necromancer", 0.00, 0.00,  800);
 var DE_P_Priestess   = new OCPuppet("DE",   "Priestess", 0.00, 0.00,  800);
 var DE_P_Wraith0     = new OCPuppet("DE",   "Wraith L0", 0.10, 0.00,  650); //wraith with 0, 1, 2 and 3 eats.
-var DE_P_Wraith1     = new OCPuppet("DE",   "Wraith L1", 0.10, 0.00,  800);
-var DE_P_Wraith2     = new OCPuppet("DE",   "Wraith L2", 0.10, 0.00,  950);
-var DE_P_Wraith3     = new OCPuppet("DE",   "Wraith L3", 0.10, 0.00, 1100);
+var DE_P_Wraith1     = new OCPuppet("DE",   "Wraith L1", 0.10, 0.00,  650); //base hp is always 650. hp buffs dealt with in updatemaxhp
+var DE_P_Wraith2     = new OCPuppet("DE",   "Wraith L2", 0.10, 0.00,  650);
+var DE_P_Wraith3     = new OCPuppet("DE",   "Wraith L3", 0.10, 0.00,  650);
 var DE_P_Phantom     = new OCPuppet("DE",     "Phantom", 0.00, 0.00,  100);
 
 var DE_Team = [
@@ -914,7 +931,7 @@ function AttackUpdate(AP)
     textAttackValue.innerText = APdmg[AP];
     
     APdmg[AP] = APdmg[AP] - (APdmg[AP] * APres[AP]);
-    APdmg[AP] = 5 * Math.round(APdmg[AP]/5); //round to nearest 5
+    APdmg[AP] = SLround(APdmg[AP]); //round to nearest 5
     
     if (APTarget[AP].buffbubble)
     {
@@ -935,31 +952,35 @@ function AttackUpdate(AP)
         APTarget[AP].debuffmonk = true;
         UpdateMaxHP(APTarget[AP]);
     }
-    
-    textHPValue.innerText = APTarget[AP].currenthp + " / " + APTarget[AP].maxhp;
 
+    if ((APdmg[AP] > 0) && (AllRace_Attacks[popupAttackerRaceValue][popupAttackValue].name == "Drill Direct Attack")) //remove shield
+    {
+        if (APTarget[AP].itemsoulstone || APTarget[AP].itemshield || APTarget[AP].itemspikearmor)
+        {
+            APTarget[AP].itemsoulstone = false;
+            APTarget[AP].itemshield = false;
+            APTarget[AP].itemspikearmor = false;
+            UpdateMaxHP(APTarget[AP]);
+        }
+    }
+
+    if ((textAttackValue.innerText > 0) && (APTarget[AP].buffbubble)) // pop bubble
+    {
+        APTarget[AP].buffbubble = false;
+    }
+    
+    if ((APdmg[AP] > 0) && (APTarget[AP].buffbrew)) // remove brew buff
+    {
+        APTarget[AP].buffbrew = false;
+    }
+
+    textHPValue.innerText = APTarget[AP].currenthp + " / " + APTarget[AP].maxhp; // update hp counter
 
 //Section to update next Target
 
     if (AP < 5) //actually, it doesn't really matter if we update AP6...
     {
         APTarget[AP+1] = Object.create(APTarget[AP]);
-        
-        if ((APdmg[AP] > 0) && (AllRace_Attacks[popupAttackerRaceValue][popupAttackValue].name == "Drill Direct Attack")) //remove shield
-        {
-            if (APTarget[AP].itemsoulstone || APTarget[AP].itemshield || APTarget[AP].itemspikearmor)
-            {
-                APTarget[AP+1].itemsoulstone = false;
-                APTarget[AP+1].itemshield = false;
-                APTarget[AP+1].itemspikearmor = false;
-                UpdateMaxHP(APTarget[AP+1]);
-            }
-        }
-        
-        if ((textAttackValue.innerText > 0) && (APTarget[AP].buffbubble)) // pop bubble
-        {
-            APTarget[AP+1].buffbubble = false;
-        }
         
         if ((checkboxinputDebuffAnnihilator.checked) && (AllRace_Attacks[popupAttackerRaceValue][popupAttackValue].dmgtype == Cphy) && (APdmg[AP] > 0)) // remove annihilator debuff
         {
@@ -970,12 +991,7 @@ function AttackUpdate(AP)
             }
             
         }
-        
-        if ((APdmg[AP] > 0) && (APTarget[AP].buffbrew)) // remove brew buff
-        {
-            APTarget[AP+1].buffbrew = false;
-        }
-        
+                
         if ((APdmg[AP] > 0) && (AllRace_Attacks[popupAttackerRaceValue][popupAttackValue].name == "Poisoner Attack") && (AP < 5))
         {
             checkboxinputDebuffPoisoner = document.getElementById(checkboxinputDebuffPoisonerArray[AP+1]);
@@ -1058,6 +1074,24 @@ function UpdateMaxHP(target)
     
     var MaxHP= target.puppet.basehp + HPBuff;
     
+    switch (target.puppet.name)
+    {
+        case "Wraith L1":
+        MaxHP = MaxHP + 150;
+        break;
+        
+        case "Wraith L2":
+        MaxHP = MaxHP + 300;
+        break;
+        
+        case "Wraith L3":
+        MaxHP = MaxHP + 450;
+        break;
+        
+        default:
+    }
+        
+    
     if (target.itemhelm)
     {
         MaxHP = MaxHP + (target.puppet.basehp * 0.1);
@@ -1078,7 +1112,7 @@ function UpdateMaxHP(target)
         MaxHP = MaxHP - (target.puppet.basehp * 0.25);
     }
 
-    MaxHP = 5 * Math.round(MaxHP/5)
+    MaxHP = SLround(MaxHP);
     
     target.maxhp =  MaxHP;
     
