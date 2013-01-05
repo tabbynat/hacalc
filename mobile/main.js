@@ -46,7 +46,6 @@ var APHeavySpinCount = new Array(0, 0, 0, 0, 0, 0); //global variables to keep t
 var APComboCount     = new Array(0, 0, 0, 0, 0, 0); //global to keep track of combo points
 var HPBuff           = 0; // used to record soul harvest or manual buffs, so that recalculations still work.
 var FlagCrossUpdate  = false; //to avoid infinite loops when cross updating attacker and defender.
-var FlagMaxHPUpdate  = false; //to avoid resetting maxhp when recalculating AP 1.
 
 
 //===================================FUNCTION DECLARATIONS=======================================
@@ -1109,10 +1108,9 @@ function ResistUpdate(AP)
 
 function AP1UpdateAll(event) //helper function because Dashcode doesn't allow handlers to pass parameters.
 {
-    if (!FlagMaxHPUpdate)
-    {
-        APTarget[1] = Object.create(APTarget[0]); // reset the first target if first attack popup changes, and is not due to maxhp change.
-    }
+
+    APTarget[1] = Object.create(APTarget[0]);
+    UpdateMaxHP(APTarget[1]); // because AP 0's HP does not include HPBuff
     
     ResistUpdate(1); //update resist first so that the damage can be calculated in AttackUpdate
     AttackUpdate(1);
@@ -1265,8 +1263,6 @@ function SetMaxHP(event)
     
     APTarget[0].currenthp = textFieldInitialMaxHP.value;
     textFieldInitialCurrentHP.value = textFieldInitialMaxHP.value;;    
-    
-    FlagMaxHPUpdate = true;
     AP1UpdateAll();
 }
 
