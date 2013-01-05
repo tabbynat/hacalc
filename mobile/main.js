@@ -45,6 +45,9 @@ var APres            = new Array(0, 0, 0, 0, 0, 0); //global variables for resis
 var APHeavySpinCount = new Array(0, 0, 0, 0, 0, 0); //global variables to keep track of heavy spin.
 var APComboCount     = new Array(0, 0, 0, 0, 0, 0); //global to keep track of combo points
 var HPBuff           = 0; // used to record soul harvest or manual buffs, so that recalculations still work.
+var FlagCrossUpdate  = false; //to avoid infinite loops when cross updating attacker and defender.
+var FlagMaxHPUpdate  = false; //to avoid resetting maxhp when recalculating AP 1.
+
 
 //===================================FUNCTION DECLARATIONS=======================================
 
@@ -264,7 +267,6 @@ var CL_Team = [
 	CL_P_Cleric, 
 	CL_P_Ninja]; //array of all puppets
 
-
 //Council attacks setup
 
 var CL_A_Knight   = new OCAttack("CL",        "Knight Attack", 200, Cphy, 1.00);
@@ -278,7 +280,7 @@ var CL_A_NinjaR   = new OCAttack("CL",  "Ninja Ranged Attack", 200, Cphy, 1.00);
 var CL_A_NinjaM   = new OCAttack("CL",   "Ninja Melee Attack", 200, Cphy, 2.00);
 var CL_A_Inferno  = new OCAttack("CL",              "Inferno", 350, Cmag, 1.00);
 
-var CL_Attacks = [
+var CL_Attacks_Base = [
 	CL_A_Knight, 
 	CL_A_ArcherM, 
 	CL_A_ArcherR, 
@@ -289,8 +291,6 @@ var CL_Attacks = [
 	CL_A_NinjaR, 
 	CL_A_NinjaM, 
 	CL_A_Inferno]; //array of all attacks
-
-
 
 //===================================DARK ELVES DATA SETUP=======================================
 
@@ -331,7 +331,7 @@ var DE_A_Wraith3     = new OCAttack("DE",       "Wraith L3 Attack", 400, Cmag, 1
 var DE_A_Phantom     = new OCAttack("DE",         "Phantom Attack", 100, Cmag, 1.00);
 var DE_A_SoulHarvest = new OCAttack("DE",           "Soul Harvest", 100, Cmag, 1.00);
 
-var DE_Attacks = [
+var DE_Attacks_Base = [
 	DE_A_VoidMonk1, 
 	DE_A_VoidMonk2, 
 	DE_A_Impaler, 
@@ -343,7 +343,6 @@ var DE_Attacks = [
     DE_A_Wraith3,
 	DE_A_Phantom,
 	DE_A_SoulHarvest];
-
 
 //===================================DARK ELVES DATA SETUP=======================================
 
@@ -361,6 +360,8 @@ var DW_Team = [
 	DW_P_Gunner, 
 	DW_P_Engineer, 
 	DW_P_Annihilator];
+    
+    
 
 var DW_A_Paladin     = new OCAttack("DW",           "Paladin Attack", 200, Cphy, 1.00);
 var DW_A_Grenadier1  = new OCAttack("DW",  "Grenadier Direct Attack", 200, Cmag, 1.00);
@@ -368,15 +369,14 @@ var DW_A_Grenadier2  = new OCAttack("DW",  "Grenadier Splash Attack", 200, Cmag,
 var DW_A_GunnerR     = new OCAttack("DW",      "Gunner Range Attack", 300, Cphy, 0.66);
 var DW_A_GunnerM     = new OCAttack("DW",      "Gunner Melee Attack", 300, Cphy, 1.00);
 var DW_A_Engineer    = new OCAttack("DW",          "Engineer Attack", 200, Cphy, 1.00);
-var DW_A_Annihilator1 = new OCAttack("DW", "Annihilator Direct Attack", 300, Cphy, 1.00);
-var DW_A_Annihilator2 = new OCAttack("DW", "Annihilator Splash Attack", 300, Cphy, 0.20);
+var DW_A_Annihilator1 = new OCAttack("DW", "Annihilator Direct Attack", 300, Cmag, 1.00);
+var DW_A_Annihilator2 = new OCAttack("DW", "Annihilator Splash Attack", 300, Cmag, 0.20);
 var DW_A_Drill1      = new OCAttack("DW",      "Drill Direct Attack", 600, Cphy, 1.00);
 var DW_A_Drill2      = new OCAttack("DW",      "Drill Splash Attack", 600, Cphy, 0.33); //untyped damage from gem tile to be added at damage calculation stage?
 
-var DW_Attacks = [
+var DW_Attacks_Base = [
 	DW_A_Paladin,
-	
-DW_A_Grenadier1,
+    DW_A_Grenadier1,
 	DW_A_Grenadier2,
 	DW_A_GunnerR,
 	DW_A_GunnerM,
@@ -385,7 +385,6 @@ DW_A_Grenadier1,
 	DW_A_Annihilator2,
 	DW_A_Drill1,
 	DW_A_Drill2];
-
 
 //===================================TRIBE DATA SETUP=======================================
 
@@ -411,7 +410,7 @@ var TR_A_Shaman     = new OCAttack("TR",               "Shaman Attack", 200, Cma
 var TR_A_Chieftain1 = new OCAttack("TR",     "Chieftain Direct Attack", 200, Cphy, 1.00);
 var TR_A_Chieftain2 = new OCAttack("TR",     "Chieftain Splash Attack", 200, Cphy, 0.66);
 
-var TR_Attacks = [
+var TR_Attacks_Base = [
 	TR_A_Warrior,
 	TR_A_AxeThrower,
 	TR_A_Witch1,
@@ -419,7 +418,6 @@ var TR_Attacks = [
 	TR_A_Shaman,
 	TR_A_Chieftain1,
 	TR_A_Chieftain2];
-
 
 //===================================TEAM FORTRESS DATA SETUP=======================================
 
@@ -438,11 +436,8 @@ var TF_Team = [
 	TF_P_Scout,
 	TF_P_Soldier,
 	TF_P_Sniper,
-
 	TF_P_Medic,
-
 	TF_P_Engineer,
-
 	TF_P_Heavy,
 	TF_P_Pyro,
 	TF_P_Demoman];  
@@ -462,7 +457,7 @@ var TF_A_Demoman1 = new OCAttack("TF", "Demoman Direct Attack" , 200, Cmag, 1.00
 var TF_A_Demoman2 = new OCAttack("TF", "Demoman Splash Attack" , 200, Cmag, 0.50);
 
 
-var TF_Attacks = [
+var TF_Attacks_Base = [
 	TF_A_SpyM,
 	TF_A_SpyB,
 	TF_A_Scout,
@@ -477,7 +472,6 @@ var TF_Attacks = [
 	TF_A_Demoman1,
 	TF_A_Demoman2];
 
-
 //===================================SHAOLIN DATA SETUP=======================================
 
 var SL_P_Monk      = new OCPuppet("SL", "Monk"      , 0.00, 0.00, 1000);
@@ -486,12 +480,14 @@ var SL_P_Poisoner  = new OCPuppet("SL", "Poisoner"  , 0.00, 0.00,  650);
 var SL_P_Taoist    = new OCPuppet("SL", "Taoist"    , 0.00, 0.00,  800);
 var SL_P_Shadow    = new OCPuppet("SL", "Shadow"    , 0.20, 0.00, 1000);
 
-var SL_Team = [
+var SL_Team_Base = [
     SL_P_Monk,
     SL_P_Windblade,
     SL_P_Poisoner,
     SL_P_Taoist,
     SL_P_Shadow];
+    
+var SL_Team = Object.create(SL_Team_Base);
     
 var SL_A_Monk       = new OCAttack("SL", "Monk Attack"                   , 200, Cphy, 1.00);
 var SL_A_Windblade1 = new OCAttack("SL", "Windblade Direct Attack"       , 200, Cphy, 1.00);
@@ -505,7 +501,7 @@ var SL_A_Dragon2    = new OCAttack("SL", "Dragon First Chain Attack"     , 600, 
 var SL_A_Dragon3    = new OCAttack("SL", "Dragon Second Chain Attack"    , 600, Cmag, 0.5625);
 var SL_A_Dragon4    = new OCAttack("SL", "Dragon Third Chain Attack"     , 600, Cmag, 0.421875);
 
-var SL_Attacks = [
+var SL_Attacks_Base = [
     SL_A_Monk,
     SL_A_Windblade1,
     SL_A_Windblade2,
@@ -533,12 +529,12 @@ var MS_Attacks = [
 
 //concat the misc attacks onto each team attack array
 
-CL_Attacks = CL_Attacks.concat(MS_Attacks);
-DE_Attacks = DE_Attacks.concat(MS_Attacks);
-DW_Attacks = DW_Attacks.concat(MS_Attacks);
-TR_Attacks = TR_Attacks.concat(MS_Attacks);
-TF_Attacks = TF_Attacks.concat(MS_Attacks);
-SL_Attacks = SL_Attacks.concat(MS_Attacks);
+var CL_Attacks = CL_Attacks_Base.concat(MS_Attacks);
+var DE_Attacks = DE_Attacks_Base.concat(MS_Attacks);
+var DW_Attacks = DW_Attacks_Base.concat(MS_Attacks);
+var TR_Attacks = TR_Attacks_Base.concat(MS_Attacks);
+var TF_Attacks = TF_Attacks_Base.concat(MS_Attacks);
+var SL_Attacks = SL_Attacks_Base.concat(MS_Attacks);
 
 var AllRace_Team = [CL_Team, DE_Team, DW_Team, TR_Team, TF_Team, SL_Team]; // array of all teams. For target selection.
 var AllRace_Attacks = [CL_Attacks, DE_Attacks, DW_Attacks, TR_Attacks, TF_Attacks, SL_Attacks]; // array of all attack arrays.
@@ -778,6 +774,56 @@ function PopupPopulate(Popup, PopulateArray)
     
 }
 
+function UpdateShaolin()
+{
+
+    // To account for Shadow converted units
+    
+    if ((popupDefenderRace.value == 5) && (popupAttackerRace.value != 5)) //if Defender is Shaolin and Attacker is not Shaolin 
+    {
+        SL_Team = Object.create(SL_Team_Base.concat(AllRace_Team[popupAttackerRace.value]));
+        SL_Attacks = SL_Attacks_Base.concat(MS_Attacks); 
+    }
+    else if ((popupAttackerRace.value == 5) && (popupDefenderRace.value != 5)) // else if Attacker is SL and DEfender is not SL
+    {
+        SL_Team = Object.create(SL_Team_Base);
+        
+        var PopupDefenderRaceValue = popupDefenderRace.value;
+        
+        switch (PopupDefenderRaceValue)
+        {
+            case "0":
+            SL_Attacks = SL_Attacks_Base.concat(CL_Attacks);
+            break;
+        
+            case "1":
+            SL_Attacks = SL_Attacks_Base.concat(DE_Attacks);
+            break;
+        
+            case "2":
+            SL_Attacks = SL_Attacks_Base.concat(DW_Attacks);
+            break;
+        
+            case "3":
+            SL_Attacks = SL_Attacks_Base.concat(TR_Attacks);
+            break;
+        
+            case "4":
+            SL_Attacks = SL_Attacks_Base.concat(TF_Attacks);
+            break;
+        }
+    }
+    else
+    {
+        SL_Team = Object.create(SL_Team_Base);
+        SL_Attacks = SL_Attacks_Base.concat(MS_Attacks);
+    }
+    
+    AllRace_Team = [CL_Team, DE_Team, DW_Team, TR_Team, TF_Team, SL_Team];
+    AllRace_Attacks = [CL_Attacks, DE_Attacks, DW_Attacks, TR_Attacks, TF_Attacks, SL_Attacks];
+
+}
+
 
 function PopupDefenderRaceUpdate(event)
 {
@@ -787,7 +833,15 @@ function PopupDefenderRaceUpdate(event)
 
     var DefenderRaceValue = popupDefenderRace.value;
     
-
+    UpdateShaolin();
+    
+    if (!FlagCrossUpdate)
+    {
+        FlagCrossUpdate = true;
+        PopupAttackerRaceUpdate();
+        FlagCrossUpdate = false;
+    }
+    
     // ====== Reset defaults section
 
     var HelmText = "Shining Helm";
@@ -843,6 +897,16 @@ function PopupAttackerRaceUpdate(event)
     var AttackArray = [];
     var PopupAttackerRaceValue = popupAttackerRace.value;
     
+    UpdateShaolin();
+    
+    if (!FlagCrossUpdate)
+    {
+        FlagCrossUpdate = true;
+        PopupDefenderRaceUpdate();
+        FlagCrossUpdate = false;
+    }
+    
+    
     for (var x = 0; x < AllRace_Attacks[PopupAttackerRaceValue].length; x++)
     {
         AttackArray[x] = AllRace_Attacks[PopupAttackerRaceValue][x].name;
@@ -891,9 +955,14 @@ function AttackUpdate(AP)
         APdmg[AP] = APdmg[AP] + 200;
     }
     
-    if ((AllRace_Attacks[popupAttackerRaceValue][popupAttackValue].name == "Heavy Ranged Attack") || (AllRace_Attacks[popupAttackerRaceValue][popupAttackValue].name == "Heavy Melee Attack")) // deal with Heavy Spinup bonus damage
+    if (AllRace_Attacks[popupAttackerRaceValue][popupAttackValue].name == "Heavy Ranged Attack") // deal with Heavy Spinup bonus ranged damage
     {
         APdmg[AP] = APdmg[AP] + (APHeavySpinCount[AP-1] * 50);
+        APHeavySpinCount[AP] = APHeavySpinCount[AP-1] + 1;
+    }
+    else if (AllRace_Attacks[popupAttackerRaceValue][popupAttackValue].name == "Heavy Melee Attack") // deal with heavy spinup melee damage
+    {
+        APdmg[AP] = APdmg[AP] + (APHeavySpinCount[AP-1] * 100);
         APHeavySpinCount[AP] = APHeavySpinCount[AP-1] + 1;
     }
     else
@@ -1040,7 +1109,11 @@ function ResistUpdate(AP)
 
 function AP1UpdateAll(event) //helper function because Dashcode doesn't allow handlers to pass parameters.
 {
-    APTarget[1] = Object.create(APTarget[0]); // reset the first target if first attack popup changes.
+    if (!FlagMaxHPUpdate)
+    {
+        APTarget[1] = Object.create(APTarget[0]); // reset the first target if first attack popup changes, and is not due to maxhp change.
+    }
+    
     ResistUpdate(1); //update resist first so that the damage can be calculated in AttackUpdate
     AttackUpdate(1);
     AP2UpdateAll();
@@ -1192,7 +1265,8 @@ function SetMaxHP(event)
     
     APTarget[0].currenthp = textFieldInitialMaxHP.value;
     textFieldInitialCurrentHP.value = textFieldInitialMaxHP.value;;    
-
+    
+    FlagMaxHPUpdate = true;
     AP1UpdateAll();
 }
 
