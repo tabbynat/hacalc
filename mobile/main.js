@@ -166,7 +166,7 @@ function CalcAttack(attack, attacktile, mediclink, itemrunemetal, itemscroll, it
     
     if (attack.name == "Sniper Kneeling Attack")
     {
-        attackpower = attackpower + 300;
+        attackpower = attackpower + 250;
     }
     
 	attackpower = SLround(attackpower) // Round to the nearest 5.
@@ -242,7 +242,7 @@ function CalcResist(target, attack, resisttile, buffpaladinres, debuffannihilato
     
     if (debuffpoisoner)
     {
-        resist = resist - 0.4;
+        resist = resist - 0.5;
     }
 
     return resist;
@@ -299,10 +299,10 @@ var DE_P_VoidMonk    = new OCPuppet("DE",   "Void Monk", 0.20, 0.20,  800);
 var DE_P_Impaler     = new OCPuppet("DE",     "Impaler", 0.00, 0.00,  800);
 var DE_P_Necromancer = new OCPuppet("DE", "Necromancer", 0.00, 0.00,  800);
 var DE_P_Priestess   = new OCPuppet("DE",   "Priestess", 0.00, 0.00,  800);
-var DE_P_Wraith0     = new OCPuppet("DE",   "Wraith L0", 0.10, 0.00,  650); //wraith with 0, 1, 2 and 3 eats.
-var DE_P_Wraith1     = new OCPuppet("DE",   "Wraith L1", 0.10, 0.00,  650); //base hp is always 650. hp buffs dealt with in updatemaxhp
-var DE_P_Wraith2     = new OCPuppet("DE",   "Wraith L2", 0.10, 0.00,  650);
-var DE_P_Wraith3     = new OCPuppet("DE",   "Wraith L3", 0.10, 0.00,  650);
+var DE_P_Wraith0     = new OCPuppet("DE",   "Wraith L0", 0.10, 0.00,  800); //wraith with 0, 1, 2 and 3 eats.
+var DE_P_Wraith1     = new OCPuppet("DE",   "Wraith L1", 0.10, 0.00,  800); //base hp is always 800. hp buffs dealt with in updatemaxhp
+var DE_P_Wraith2     = new OCPuppet("DE",   "Wraith L2", 0.10, 0.00,  800);
+var DE_P_Wraith3     = new OCPuppet("DE",   "Wraith L3", 0.10, 0.00,  800);
 var DE_P_Phantom     = new OCPuppet("DE",     "Phantom", 0.00, 0.00,  100);
 
 var DE_Team = [
@@ -347,7 +347,7 @@ var DE_Attacks_Base = [
 
 // Dwarves puppets setup
 
-var DW_P_Paladin    = new OCPuppet("DW",   "Paladin", 0.10, 0.10, 1000);
+var DW_P_Paladin    = new OCPuppet("DW",   "Paladin", 0.10, 0.10, 900);
 var DW_P_Grenadier  = new OCPuppet("DW", "Grenadier", 0.00, 0.00,  800);
 var DW_P_Gunner     = new OCPuppet("DW",    "Gunner", 0.00, 0.00,  800);
 var DW_P_Engineer   = new OCPuppet("DW",  "Engineer", 0.00, 0.00,  800);
@@ -365,6 +365,7 @@ var DW_Team = [
 var DW_A_Paladin     = new OCAttack("DW",           "Paladin Attack", 200, Cphy, 1.00);
 var DW_A_Grenadier1  = new OCAttack("DW",  "Grenadier Direct Attack", 200, Cmag, 1.00);
 var DW_A_Grenadier2  = new OCAttack("DW",  "Grenadier Splash Attack", 200, Cmag, 0.50);
+var DW_A_GrenadierM  = new OCAttack("DW",  "Grenadier Melee Attack", 100, Cmag, 1.00);
 var DW_A_GunnerR     = new OCAttack("DW",      "Gunner Range Attack", 300, Cphy, 0.66);
 var DW_A_GunnerM     = new OCAttack("DW",      "Gunner Melee Attack", 300, Cphy, 1.00);
 var DW_A_Engineer    = new OCAttack("DW",          "Engineer Attack", 200, Cphy, 1.00);
@@ -377,6 +378,7 @@ var DW_Attacks_Base = [
 	DW_A_Paladin,
     DW_A_Grenadier1,
 	DW_A_Grenadier2,
+    DW_A_GrenadierM,
 	DW_A_GunnerR,
 	DW_A_GunnerM,
 	DW_A_Engineer,
@@ -426,7 +428,7 @@ var TF_P_Soldier  = new OCPuppet("TF", "Soldier" , 0.00, 0.00,  800);
 var TF_P_Sniper   = new OCPuppet("TF", "Sniper"  , 0.00, 0.00,  650);
 var TF_P_Medic    = new OCPuppet("TF", "Medic"   , 0.10, 0.00,  800);
 var TF_P_Engineer = new OCPuppet("TF", "Engineer", 0.00, 0.00,  800);
-var TF_P_Heavy    = new OCPuppet("TF", "Heavy"   , 0.00, 0.00, 1200);
+var TF_P_Heavy    = new OCPuppet("TF", "Heavy"   , 0.00, 0.00, 1100);
 var TF_P_Pyro     = new OCPuppet("TF", "Pyro"    , 0.00, 0.00,  800);
 var TF_P_Demoman  = new OCPuppet("TF", "Demoman" , 0.00, 0.00,  800);
 
@@ -1153,15 +1155,15 @@ function UpdateMaxHP(target)
     switch (target.puppet.name)
     {
         case "Wraith L1":
-        MaxHP = MaxHP + 150;
+        MaxHP = MaxHP + 100;
         break;
         
         case "Wraith L2":
-        MaxHP = MaxHP + 300;
+        MaxHP = MaxHP + 200;
         break;
         
         case "Wraith L3":
-        MaxHP = MaxHP + 450;
+        MaxHP = MaxHP + 300;
         break;
         
         default:
