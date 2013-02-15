@@ -157,7 +157,7 @@ function CalcAttack(attack, attacktile, mediclink, itemrunemetal, itemscroll, it
 	
 	if (buffpaladindmg > 0)
 	{
-		attackpower = attackpower * (1 + (buffpaladindmg * 0.05));
+		attackpower = attackpower * Math.pow(1.05,buffpaladindmg);
 	}
 
 	attackpower = attackpower * attack.percentage; 
@@ -366,7 +366,7 @@ var DW_A_Paladin     = new OCAttack("DW",           "Paladin Attack", 200, Cphy,
 var DW_A_Grenadier1  = new OCAttack("DW",  "Grenadier Direct Attack", 200, Cmag, 1.00);
 var DW_A_Grenadier2  = new OCAttack("DW",  "Grenadier Splash Attack", 200, Cmag, 0.50);
 var DW_A_GrenadierM  = new OCAttack("DW",  "Grenadier Melee Attack", 100, Cmag, 1.00);
-var DW_A_GunnerR     = new OCAttack("DW",      "Gunner Range Attack", 300, Cphy, 0.66);
+var DW_A_GunnerR     = new OCAttack("DW",      "Gunner Range Attack", 200, Cphy, 1.00);
 var DW_A_GunnerM     = new OCAttack("DW",      "Gunner Melee Attack", 300, Cphy, 1.00);
 var DW_A_Engineer    = new OCAttack("DW",          "Engineer Attack", 200, Cphy, 1.00);
 var DW_A_Annihilator1 = new OCAttack("DW", "Annihilator Direct Attack", 300, Cmag, 1.00);
