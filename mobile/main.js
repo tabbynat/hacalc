@@ -1213,12 +1213,12 @@ function UpdateTarget1(event) // only used to set APTarget[0] and [1]. The rest 
     
     if (checkboxinputShield.checked)
     {
-        switch (SelectedTarget.race)
+        switch (popupDefenderRaceValue)
         {
-            case "DE":
+            case "1":
                 soulstone = true;
                 break;
-            case "TR":
+            case "3":
                 spikearmor = true;
                 break;
             default:
