@@ -269,7 +269,7 @@ var CL_Team = [
 //Council attacks setup
 
 var CL_A_Knight   = new OCAttack("CL",        "Knight Attack", 200, Cphy, 1.00);
-var CL_A_ArcherM  = new OCAttack("CL",  "Archer Melee Attack", 150, Cphy, 1.00);
+var CL_A_ArcherM  = new OCAttack("CL",  "Archer Melee Attack", 300, Cphy, 0.50);
 var CL_A_ArcherR  = new OCAttack("CL", "Archer Ranged Attack", 300, Cphy, 1.00);
 var CL_A_Wizard1  = new OCAttack("CL", "Wizard Direct Attack", 200, Cmag, 1.00);
 var CL_A_Wizard2  = new OCAttack("CL",   "Wizard First Chain", 200, Cmag, 0.75);
@@ -365,7 +365,7 @@ var DW_Team = [
 var DW_A_Paladin     = new OCAttack("DW",           "Paladin Attack", 200, Cphy, 1.00);
 var DW_A_Grenadier1  = new OCAttack("DW",  "Grenadier Direct Attack", 200, Cmag, 1.00);
 var DW_A_Grenadier2  = new OCAttack("DW",  "Grenadier Splash Attack", 200, Cmag, 0.50);
-var DW_A_GrenadierM  = new OCAttack("DW",  "Grenadier Melee Attack", 100, Cmag, 1.00);
+var DW_A_GrenadierM  = new OCAttack("DW",  "Grenadier Melee Attack", 200, Cmag, 0.50);
 var DW_A_GunnerR     = new OCAttack("DW",      "Gunner Range Attack", 200, Cphy, 1.00);
 var DW_A_GunnerM     = new OCAttack("DW",      "Gunner Melee Attack", 300, Cphy, 1.00);
 var DW_A_Engineer    = new OCAttack("DW",          "Engineer Attack", 200, Cphy, 1.00);
